@@ -89,10 +89,10 @@
   <line x1="CENTER" y1="CENTER" x2="CENTER" y2="HOUR_Y" stroke="#4CAF50" stroke-width="HAND_H" stroke-linecap="round"/>
   <line x1="CENTER" y1="CENTER" x2="MIN_X" y2="CENTER" stroke="#4CAF50" stroke-width="HAND_M" stroke-linecap="round"/>
   <circle cx="CENTER" cy="CENTER" r="DOT_R" fill="#4CAF50"/>
-  <circle cx="CENTER" cy="MARK_T" r="MARK_R" fill="#ffffff"/>
-  <circle cx="CENTER" cy="MARK_B" r="MARK_R" fill="#ffffff"/>
-  <circle cx="MARK_L" cy="CENTER" r="MARK_R" fill="#ffffff"/>
-  <circle cx="MARK_R" cy="CENTER" r="MARK_R" fill="#ffffff"/>
+  <circle cx="CENTER" cy="MARK_T" r="MARK_RADIUS" fill="#ffffff"/>
+  <circle cx="CENTER" cy="MARK_B" r="MARK_RADIUS" fill="#ffffff"/>
+  <circle cx="MARK_L" cy="CENTER" r="MARK_RADIUS" fill="#ffffff"/>
+  <circle cx="MARK_RIGHT" cy="CENTER" r="MARK_RADIUS" fill="#ffffff"/>
 </svg>`;
 
         function getSVG(size) {
@@ -103,13 +103,13 @@
             const handH = size * 0.03125;
             const handM = size * 0.0234;
             const dotR = size * 0.0234;
-            const markR = size * 0.0156;
+            const markRadius = size * 0.0156;
             const hourY = center - clockR * 0.6;
             const minX = center + clockR * 0.4;
             const markT = center - clockR;
             const markB = center + clockR;
             const markL = center - clockR;
-            const markR = center + clockR;
+            const markRight = center + clockR;
 
             return svgSource
                 .replace(/SIZE/g, size)
@@ -125,8 +125,8 @@
                 .replace(/MARK_T/g, markT)
                 .replace(/MARK_B/g, markB)
                 .replace(/MARK_L/g, markL)
-                .replace(/MARK_R/g, markR)
-                .replace(/MARK_R(?!_)/g, markR);
+                .replace(/MARK_RIGHT/g, markRight)
+                .replace(/MARK_RADIUS/g, markRadius);
         }
 
         function generateIcon(size) {

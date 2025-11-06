@@ -27,7 +27,12 @@
         theme: {
           extend: {
             colors: {
-              success: '#4CAF50',
+              primary: '#6366f1',
+              'primary-dark': '#4f46e5',
+              success: '#10b981',
+              'success-dark': '#059669',
+              accent: '#f59e0b',
+              'accent-dark': '#d97706',
             }
           }
         }
@@ -35,7 +40,22 @@
     </script>
 
     <style>
-        /* Chart center text positioning - custom CSS needed for absolute positioning */
+        /* Global styling improvements */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0f172a;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.3) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(88, 28, 135, 0.3) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(30, 58, 138, 0.2) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(88, 28, 135, 0.2) 0px, transparent 50%);
+            min-height: 100vh;
+        }
+
+        /* Chart center text positioning */
         .chart-center-text {
             position: absolute;
             top: 50%;
@@ -45,26 +65,26 @@
             pointer-events: none;
         }
 
-        /* Custom scrollbar styling */
+        /* Custom scrollbar styling - Dark Mode */
         .archive-timeline::-webkit-scrollbar {
             width: 8px;
         }
 
         .archive-timeline::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: rgba(30, 41, 59, 0.5);
             border-radius: 4px;
         }
 
         .archive-timeline::-webkit-scrollbar-thumb {
-            background: #888;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             border-radius: 4px;
         }
 
         .archive-timeline::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
         }
 
-        /* Slide in animation */
+        /* Animations */
         @keyframes slideIn {
             from {
                 transform: translateY(100px);
@@ -76,19 +96,155 @@
             }
         }
 
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
         .pwa-status.show {
             animation: slideIn 0.3s ease-out;
         }
 
-        /* KW badge gradient */
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        /* Enhanced card styling - Dark Mode */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            color: #e2e8f0;
+        }
+
+        /* KW badge gradient - Dark Mode */
         .kw-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Module progress bars with enhanced visuals */
+        .progress-bar {
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button enhancements - Dark Mode */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Timer card enhancements */
+        .timer-active {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border: 2px solid #10b981;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+        }
+
+        .timer-paused {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Header gradient */
+        .header-gradient {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Task table styling - Dark Mode */
+        .task-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 10px;
+        }
+
+        .task-table thead th {
+            background: linear-gradient(135deg, rgba(51, 65, 85, 0.6) 0%, rgba(30, 41, 59, 0.8) 100%);
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 13px;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(71, 85, 105, 0.5);
+            white-space: nowrap;
+        }
+
+        .task-table thead th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .task-table thead th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        .task-table tbody td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        .task-table tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        .task-table tbody tr:hover {
+            background: linear-gradient(135deg, rgba(51, 65, 85, 0.4) 0%, rgba(30, 41, 59, 0.6) 100%);
+            transform: scale(1.01);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-tag {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            white-space: nowrap;
         }
     </style>
 </head>
-<body class="m-0 p-0 font-sans bg-gray-100 text-gray-800">
+<body class="m-0 p-0 font-sans text-slate-200">
     <div id="root"></div>
-    <div id="pwa-status" class="fixed bottom-5 right-5 bg-gray-800 text-white px-5 py-3 rounded shadow-lg text-sm hidden z-50"></div>
+    <div id="pwa-status" class="fixed bottom-5 right-5 glass-card text-slate-100 px-6 py-4 rounded-xl shadow-2xl text-sm hidden z-50 font-semibold"></div>
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
@@ -839,75 +995,78 @@
             };
 
             return (
-                <div className="max-w-7xl mx-auto p-5">
-                    <div className="mb-5 flex justify-between items-center">
-                        <div>
-                            <h1 className="text-3xl my-5 text-gray-900 font-semibold">
-                                Time Tracker
-                            </h1>
-                            <div className="flex gap-3 mt-3">
-                                {Object.keys(programs).map(programName => (
-                                    <button
-                                        key={programName}
-                                        onClick={() => setActiveProgram(programName)}
-                                        className={`py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200 border-2 ${
-                                            activeProgram === programName
-                                                ? 'bg-gray-800 text-white border-gray-800 shadow-md'
-                                                : 'bg-white text-gray-800 border-gray-300 hover:bg-gray-50 hover:shadow'
-                                        }`}
-                                    >
-                                        {programName}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="flex gap-3 items-center">
-                            <button
-                                id="install-btn"
-                                className="px-4 py-2 bg-success text-white rounded-lg text-sm font-medium hover:bg-green-600 transition-colors hidden"
-                                onClick={handleInstallClick}
-                            >
-                                Install App
-                            </button>
-                            <div className="relative">
-                                <button
-                                    className="px-3 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer text-xl leading-none transition-all hover:bg-gray-50 hover:shadow"
-                                    onClick={() => setHamburgerMenuOpen(!hamburgerMenuOpen)}
-                                >
-                                    ☰
-                                </button>
-                                {hamburgerMenuOpen && (
-                                    <div className="absolute right-0 top-full mt-2 bg-white border border-gray-300 rounded-lg shadow-lg min-w-[200px] z-50 overflow-hidden">
+                <div className="min-h-screen py-8 px-4">
+                    <div className="max-w-7xl mx-auto">
+                    <div className="glass-card rounded-2xl p-6 mb-8 shadow-2xl fade-in-up">
+                        <div className="flex justify-between items-center flex-wrap gap-4">
+                            <div>
+                                <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+                                    Time Tracker
+                                </h1>
+                                <div className="flex gap-3 flex-wrap">
+                                    {Object.keys(programs).map(programName => (
                                         <button
-                                            onClick={() => {
-                                                exportData();
-                                                setHamburgerMenuOpen(false);
-                                            }}
-                                            className="w-full py-3 px-4 bg-transparent border-none border-b border-gray-200 text-left text-sm cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-colors"
-                                        >
-                                            <span>💾</span> Export Data
-                                        </button>
-                                        <button
-                                            onClick={() => {
-                                                document.getElementById('import-file').click();
-                                                setHamburgerMenuOpen(false);
-                                            }}
-                                            className="w-full py-3 px-4 bg-transparent border-none border-b border-gray-200 text-left text-sm cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-colors"
-                                        >
-                                            <span>📥</span> Import Data
-                                        </button>
-                                        <button
-                                            onClick={toggleEditMode}
-                                            className={`w-full py-3 px-4 border-none text-left text-sm cursor-pointer flex items-center gap-2 transition-colors ${
-                                                editLayoutMode
-                                                    ? 'bg-blue-50 text-blue-600 font-semibold'
-                                                    : 'bg-transparent hover:bg-gray-50'
+                                            key={programName}
+                                            onClick={() => setActiveProgram(programName)}
+                                            className={`py-2.5 px-5 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                                                activeProgram === programName
+                                                    ? 'btn-primary text-white'
+                                                    : 'bg-slate-700 text-slate-200 border-2 border-slate-600 hover:border-blue-400 hover:shadow-lg hover:bg-slate-600'
                                             }`}
                                         >
-                                            <span>{editLayoutMode ? '✓' : '⚙️'}</span> {editLayoutMode ? 'Exit Edit Mode' : 'Edit Layout'}
+                                            {programName}
                                         </button>
-                                    </div>
-                                )}
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="flex gap-3 items-center">
+                                <button
+                                    id="install-btn"
+                                    className="px-5 py-2.5 btn-success text-white rounded-xl text-sm font-semibold hidden"
+                                    onClick={handleInstallClick}
+                                >
+                                    Install App
+                                </button>
+                                <div className="relative hamburger-menu-container">
+                                    <button
+                                        className="px-4 py-2.5 glass-card rounded-xl cursor-pointer text-xl leading-none transition-all hover:shadow-lg border-2 border-slate-600 hover:border-blue-400"
+                                        onClick={() => setHamburgerMenuOpen(!hamburgerMenuOpen)}
+                                    >
+                                        ☰
+                                    </button>
+                                    {hamburgerMenuOpen && (
+                                        <div className="absolute right-0 top-full mt-2 glass-card rounded-xl shadow-2xl min-w-[200px] z-50 overflow-hidden border-2 border-slate-600">
+                                            <button
+                                                onClick={() => {
+                                                    exportData();
+                                                    setHamburgerMenuOpen(false);
+                                                }}
+                                                className="w-full py-3 px-4 bg-transparent border-none border-b border-slate-600 text-left text-sm cursor-pointer flex items-center gap-2 hover:bg-gradient-to-r hover:from-slate-700 hover:to-slate-600 transition-all font-medium text-slate-200"
+                                            >
+                                                <span>💾</span> Export Data
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    document.getElementById('import-file').click();
+                                                    setHamburgerMenuOpen(false);
+                                                }}
+                                                className="w-full py-3 px-4 bg-transparent border-none border-b border-slate-600 text-left text-sm cursor-pointer flex items-center gap-2 hover:bg-gradient-to-r hover:from-slate-700 hover:to-slate-600 transition-all font-medium text-slate-200"
+                                            >
+                                                <span>📥</span> Import Data
+                                            </button>
+                                            <button
+                                                onClick={toggleEditMode}
+                                                className={`w-full py-3 px-4 border-none text-left text-sm cursor-pointer flex items-center gap-2 transition-all font-medium ${
+                                                    editLayoutMode
+                                                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold'
+                                                        : 'bg-transparent hover:bg-gradient-to-r hover:from-slate-700 hover:to-slate-600 text-slate-200'
+                                                }`}
+                                            >
+                                                <span>{editLayoutMode ? '✓' : '⚙️'}</span> {editLayoutMode ? 'Exit Edit Mode' : 'Edit Layout'}
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <input
@@ -922,15 +1081,15 @@
                     {/* Dynamic section rendering based on user layout preference */}
                     {renderSectionWithControls(
                         `chart-with-${sectionOrder[0]}`,
-                        <div className="bg-white rounded-xl p-8 mb-5 shadow-md hover:shadow-lg transition-shadow duration-200">
-                        <h2 className="text-xl font-semibold mb-5 text-gray-900">Invested time</h2>
+                        <div className="glass-card rounded-2xl p-8 mb-8 shadow-2xl hover:shadow-3xl transition-all duration-300 fade-in-up">
+                        <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Invested Time</h2>
 
-                        <div className="flex gap-6 mb-8 border-b border-gray-200 overflow-x-auto">
+                        <div className="flex gap-4 mb-8 border-b-2 border-slate-600 overflow-x-auto pb-1">
                             <div
-                                className={`pb-3 px-2 cursor-pointer border-b-2 text-sm transition-all duration-200 whitespace-nowrap ${
+                                className={`pb-3 px-4 cursor-pointer border-b-4 text-sm font-semibold transition-all duration-300 whitespace-nowrap rounded-t-lg ${
                                     activeTab === 'overview'
-                                        ? 'text-gray-900 border-gray-900 font-medium'
-                                        : 'text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300'
+                                        ? 'text-blue-400 border-blue-400 bg-gradient-to-t from-blue-900/30 to-transparent'
+                                        : 'text-slate-400 border-transparent hover:text-blue-400 hover:border-blue-400 hover:bg-gradient-to-t hover:from-blue-900/20 hover:to-transparent'
                                 }`}
                                 onClick={() => setActiveTab('overview')}
                             >
@@ -939,15 +1098,19 @@
                             {Object.entries(modules).map(([moduleName, moduleData]) => (
                                 <div
                                     key={moduleName}
-                                    className={`pb-3 px-2 cursor-pointer border-b-2 text-sm transition-all duration-200 whitespace-nowrap ${
+                                    className={`pb-3 px-4 cursor-pointer border-b-4 text-sm font-semibold transition-all duration-300 whitespace-nowrap rounded-t-lg ${
                                         activeTab === moduleName
-                                            ? 'text-gray-900 font-medium'
-                                            : 'text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300'
+                                            ? 'font-bold bg-gradient-to-t to-transparent'
+                                            : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-gradient-to-t hover:to-transparent'
                                     }`}
-                                    style={{borderBottomColor: activeTab === moduleName ? moduleData.color : 'transparent'}}
+                                    style={{
+                                        borderBottomColor: activeTab === moduleName ? moduleData.color : 'transparent',
+                                        color: activeTab === moduleName ? moduleData.color : undefined,
+                                        backgroundImage: activeTab === moduleName ? `linear-gradient(to top, ${moduleData.color}25, transparent)` : undefined
+                                    }}
                                     onClick={() => setActiveTab(moduleName)}
                                 >
-                                    <span style={{color: moduleData.color}}>●</span> {getModuleShortName(moduleName)}
+                                    <span style={{color: moduleData.color, fontSize: '16px'}}>●</span> {getModuleShortName(moduleName)}
                                 </div>
                             ))}
                         </div>
@@ -957,8 +1120,8 @@
                                 <div className="relative w-[280px] h-[280px] mx-auto">
                                     <canvas ref={chartRef}></canvas>
                                     <div className="chart-center-text">
-                                        <div className="text-5xl font-light text-gray-900">{getTotalHours()}</div>
-                                        <div className="text-xs text-gray-600 mt-1">
+                                        <div className="text-5xl font-light text-slate-100">{getTotalHours()}</div>
+                                        <div className="text-xs text-slate-400 mt-1">
                                             {activeTab === 'overview' ? 'Total hours' : 'Hours invested'}
                                         </div>
                                     </div>
@@ -966,7 +1129,7 @@
 
                                 {activeTab === 'overview' ? (
                                     <div style={{marginTop: '20px', textAlign: 'left'}}>
-                                        <h3 style={{fontSize: '16px', marginBottom: '15px', color: '#333'}}>
+                                        <h3 style={{fontSize: '16px', marginBottom: '15px', color: '#e2e8f0', fontWeight: '600'}}>
                                             Weekly Goals Progress
                                         </h3>
                                         {Object.entries(modules).map(([moduleName, moduleData]) => {
@@ -980,16 +1143,16 @@
                                                         marginBottom: '4px',
                                                         fontSize: '13px'
                                                     }}>
-                                                        <span style={{fontWeight: '500', color: '#333'}}>
+                                                        <span style={{fontWeight: '600', color: '#cbd5e1'}}>
                                                             {getModuleShortName(moduleName)}
                                                         </span>
-                                                        <span style={{color: '#666', fontSize: '12px'}}>
+                                                        <span style={{color: '#94a3b8', fontSize: '12px'}}>
                                                             {formatTime(progress.current)} / {moduleData.goal}h
                                                         </span>
                                                     </div>
                                                     <div style={{
                                                         height: '8px',
-                                                        background: '#f0f0f0',
+                                                        background: 'rgba(51, 65, 85, 0.5)',
                                                         borderRadius: '4px',
                                                         overflow: 'hidden'
                                                     }}>
@@ -1006,21 +1169,22 @@
                                         <div style={{
                                             marginTop: '20px',
                                             padding: '15px',
-                                            background: '#f8f9fa',
-                                            borderRadius: '6px',
-                                            textAlign: 'center'
+                                            background: 'rgba(51, 65, 85, 0.4)',
+                                            borderRadius: '8px',
+                                            textAlign: 'center',
+                                            border: '1px solid rgba(71, 85, 105, 0.5)'
                                         }}>
-                                            <div style={{fontSize: '12px', color: '#666', marginBottom: '5px'}}>
+                                            <div style={{fontSize: '12px', color: '#94a3b8', marginBottom: '5px', fontWeight: '600'}}>
                                                 Total Weekly Goal
                                             </div>
-                                            <div style={{fontSize: '24px', fontWeight: '600', color: '#333'}}>
+                                            <div style={{fontSize: '24px', fontWeight: '700', color: '#e2e8f0'}}>
                                                 {getTotalHours()}h / {Object.values(modules).reduce((sum, m) => sum + m.goal, 0)}h
                                             </div>
                                         </div>
                                     </div>
                                 ) : activeTab !== 'week' ? (
                                     <div style={{marginTop: '20px', textAlign: 'center'}}>
-                                        <h3 style={{fontSize: '16px', marginBottom: '15px', color: '#333'}}>
+                                        <h3 style={{fontSize: '16px', marginBottom: '15px', color: '#e2e8f0', fontWeight: '600'}}>
                                             Weekly Goal for {getModuleShortName(activeTab)}
                                         </h3>
                                         {(() => {
@@ -1030,18 +1194,18 @@
                                                 <>
                                                     <div style={{
                                                         fontSize: '48px',
-                                                        fontWeight: '300',
-                                                        color: '#1a1a1a',
+                                                        fontWeight: '700',
+                                                        color: '#e2e8f0',
                                                         marginBottom: '10px'
                                                     }}>
                                                         {formatTime(progress.current)}
                                                     </div>
-                                                    <div style={{fontSize: '14px', color: '#666', marginBottom: '15px'}}>
+                                                    <div style={{fontSize: '14px', color: '#94a3b8', marginBottom: '15px'}}>
                                                         of {moduleGoal}h weekly goal
                                                     </div>
                                                     <div style={{
                                                         height: '12px',
-                                                        background: '#f0f0f0',
+                                                        background: 'rgba(51, 65, 85, 0.5)',
                                                         borderRadius: '6px',
                                                         overflow: 'hidden',
                                                         margin: '0 auto',
@@ -1057,7 +1221,7 @@
                                                     <div style={{
                                                         marginTop: '10px',
                                                         fontSize: '16px',
-                                                        fontWeight: '600',
+                                                        fontWeight: '700',
                                                         color: modules[activeTab].color
                                                     }}>
                                                         {progress.percentage.toFixed(0)}%
@@ -1073,42 +1237,43 @@
                             {sectionOrder[0] === 'timer' ? (
                                 <div className="chart-wrapper">
                                 {activeTimer ? (
-                                    <div style={{
-                                        background: activeTimer.isPaused ? '#fff3cd' : '#d4edda',
-                                        border: activeTimer.isPaused ? '2px solid #ffeeba' : '2px solid #c3e6cb',
-                                        borderRadius: '12px',
+                                    <div className={`${activeTimer.isPaused ? 'timer-paused' : 'timer-active'}`} style={{
+                                        borderRadius: '16px',
                                         padding: '25px',
                                         maxWidth: '400px',
                                         margin: '0 auto'
                                     }}>
                                         <h3 style={{
-                                            fontSize: '18px',
-                                            fontWeight: '600',
+                                            fontSize: '20px',
+                                            fontWeight: '700',
                                             marginBottom: '20px',
-                                            color: activeTimer.isPaused ? '#856404' : '#155724',
-                                            textAlign: 'center'
+                                            color: activeTimer.isPaused ? '#d97706' : '#059669',
+                                            textAlign: 'center',
+                                            letterSpacing: '0.5px'
                                         }}>
                                             Active Timer
                                         </h3>
                                         <div style={{
-                                            fontSize: '48px',
-                                            fontWeight: '300',
-                                            fontFamily: '"Courier New", monospace',
-                                            color: activeTimer.isPaused ? '#856404' : '#155724',
+                                            fontSize: '56px',
+                                            fontWeight: '700',
+                                            fontFamily: '"SF Mono", "Courier New", monospace',
+                                            color: activeTimer.isPaused ? '#d97706' : '#059669',
                                             textAlign: 'center',
-                                            marginBottom: '8px'
+                                            marginBottom: '8px',
+                                            textShadow: '0 2px 4px rgba(0,0,0,0.1)'
                                         }}>
                                             {formatTime(activeTimer.elapsed)}
                                         </div>
                                         {activeTimer.isPaused && (
                                             <div style={{
                                                 fontSize: '14px',
-                                                fontWeight: '600',
-                                                color: '#856404',
+                                                fontWeight: '700',
+                                                color: '#d97706',
                                                 textAlign: 'center',
-                                                marginBottom: '15px'
+                                                marginBottom: '15px',
+                                                letterSpacing: '1px'
                                             }}>
-                                                PAUSED
+                                                ⏸ PAUSED
                                             </div>
                                         )}
                                         <div style={{
@@ -1156,16 +1321,31 @@
                                             }}>
                                                 <button
                                                     onClick={pauseTimer}
+                                                    className={activeTimer.isPaused ? 'btn-success' : ''}
                                                     style={{
                                                         flex: 1,
-                                                        padding: '12px',
-                                                        background: activeTimer.isPaused ? '#28a745' : '#ffc107',
-                                                        color: activeTimer.isPaused ? 'white' : '#000',
+                                                        padding: '14px',
+                                                        background: activeTimer.isPaused ? undefined : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                                                        color: 'white',
                                                         border: 'none',
-                                                        borderRadius: '6px',
-                                                        fontSize: '14px',
-                                                        fontWeight: '600',
-                                                        cursor: 'pointer'
+                                                        borderRadius: '10px',
+                                                        fontSize: '15px',
+                                                        fontWeight: '700',
+                                                        cursor: 'pointer',
+                                                        boxShadow: activeTimer.isPaused ? undefined : '0 4px 12px rgba(245, 158, 11, 0.4)',
+                                                        transition: 'all 0.3s ease'
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        if (!activeTimer.isPaused) {
+                                                            e.target.style.transform = 'translateY(-2px)';
+                                                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.4)';
+                                                        }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        if (!activeTimer.isPaused) {
+                                                            e.target.style.transform = 'translateY(0)';
+                                                            e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                                                        }
                                                     }}
                                                 >
                                                     {activeTimer.isPaused ? '▶ Resume' : '⏸ Pause'}
@@ -1174,14 +1354,24 @@
                                                     onClick={stopTimer}
                                                     style={{
                                                         flex: 1,
-                                                        padding: '12px',
-                                                        background: '#dc3545',
+                                                        padding: '14px',
+                                                        background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
                                                         color: 'white',
                                                         border: 'none',
-                                                        borderRadius: '6px',
-                                                        fontSize: '14px',
-                                                        fontWeight: '600',
-                                                        cursor: 'pointer'
+                                                        borderRadius: '10px',
+                                                        fontSize: '15px',
+                                                        fontWeight: '700',
+                                                        cursor: 'pointer',
+                                                        boxShadow: '0 4px 12px rgba(239, 68, 68, 0.4)',
+                                                        transition: 'all 0.3s ease'
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        e.target.style.transform = 'translateY(-2px)';
+                                                        e.target.style.boxShadow = '0 6px 20px rgba(239, 68, 68, 0.5)';
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        e.target.style.transform = 'translateY(0)';
+                                                        e.target.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.4)';
                                                     }}
                                                 >
                                                     ⏹ Stop
@@ -1228,14 +1418,14 @@
                                         </h3>
                                         <button
                                             onClick={startTimer}
+                                            className="btn-success"
                                             style={{
-                                                padding: '12px 24px',
-                                                background: '#28a745',
+                                                padding: '14px 28px',
                                                 color: 'white',
                                                 border: 'none',
-                                                borderRadius: '6px',
-                                                fontSize: '16px',
-                                                fontWeight: '600',
+                                                borderRadius: '12px',
+                                                fontSize: '17px',
+                                                fontWeight: '700',
                                                 cursor: 'pointer'
                                             }}
                                         >
@@ -1258,16 +1448,105 @@
                             </div>
                         </div>
 
-                        <div className="task-controls">
-                            <button onClick={() => openModal()} className="primary">+ New Task</button>
-                            <button onClick={() => setViewMode('current')} className={viewMode === 'current' ? 'active' : ''}>
+                        <div style={{display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap'}}>
+                            <button
+                                onClick={() => openModal()}
+                                className="btn-success"
+                                style={{
+                                    padding: '10px 18px',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '10px',
+                                    fontSize: '14px',
+                                    fontWeight: '700',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                + New Task
+                            </button>
+                            <button
+                                onClick={() => setViewMode('current')}
+                                style={{
+                                    padding: '10px 18px',
+                                    background: viewMode === 'current' ? 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' : 'rgba(51, 65, 85, 0.5)',
+                                    color: viewMode === 'current' ? 'white' : '#cbd5e1',
+                                    border: viewMode === 'current' ? 'none' : '2px solid rgba(71, 85, 105, 0.5)',
+                                    borderRadius: '10px',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: viewMode === 'current' ? '0 2px 8px rgba(0, 0, 0, 0.3)' : 'none'
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (viewMode !== 'current') {
+                                        e.target.style.borderColor = 'rgba(59, 130, 246, 0.8)';
+                                        e.target.style.color = '#3b82f6';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (viewMode !== 'current') {
+                                        e.target.style.borderColor = 'rgba(71, 85, 105, 0.5)';
+                                        e.target.style.color = '#cbd5e1';
+                                    }
+                                }}
+                            >
                                 Current Week
                             </button>
-                            <button onClick={() => setViewMode('archive')} className={viewMode === 'archive' ? 'active' : ''}>
+                            <button
+                                onClick={() => setViewMode('archive')}
+                                style={{
+                                    padding: '10px 18px',
+                                    background: viewMode === 'archive' ? 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' : 'rgba(51, 65, 85, 0.5)',
+                                    color: viewMode === 'archive' ? 'white' : '#cbd5e1',
+                                    border: viewMode === 'archive' ? 'none' : '2px solid rgba(71, 85, 105, 0.5)',
+                                    borderRadius: '10px',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: viewMode === 'archive' ? '0 2px 8px rgba(0, 0, 0, 0.3)' : 'none'
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (viewMode !== 'archive') {
+                                        e.target.style.borderColor = 'rgba(59, 130, 246, 0.8)';
+                                        e.target.style.color = '#3b82f6';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (viewMode !== 'archive') {
+                                        e.target.style.borderColor = 'rgba(71, 85, 105, 0.5)';
+                                        e.target.style.color = '#cbd5e1';
+                                    }
+                                }}
+                            >
                                 Archive
                             </button>
-                            <button onClick={archiveCurrentWeek} style={{marginLeft: 'auto'}}>
-                                Archive Week
+                            <button
+                                onClick={archiveCurrentWeek}
+                                style={{
+                                    padding: '10px 18px',
+                                    background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '10px',
+                                    fontSize: '14px',
+                                    fontWeight: '700',
+                                    cursor: 'pointer',
+                                    marginLeft: 'auto',
+                                    boxShadow: '0 4px 12px rgba(245, 158, 11, 0.4)',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 6px 20px rgba(245, 158, 11, 0.5)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.4)';
+                                }}
+                            >
+                                📦 Archive Week
                             </button>
                         </div>
 
@@ -1303,8 +1582,58 @@
                                             <td>{formatDateTime(task.start)}</td>
                                             <td>{formatDateTime(task.end)}</td>
                                             <td>
-                                                <button onClick={() => openModal(task)} style={{marginRight: '5px'}}>Edit</button>
-                                                <button onClick={() => deleteTask(task.id)}>Delete</button>
+                                                <div style={{display: 'flex', gap: '8px'}}>
+                                                    <button
+                                                        onClick={() => openModal(task)}
+                                                        style={{
+                                                            padding: '8px 16px',
+                                                            background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '8px',
+                                                            fontSize: '13px',
+                                                            fontWeight: '600',
+                                                            cursor: 'pointer',
+                                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                                                            transition: 'all 0.2s ease'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.target.style.transform = 'translateY(-1px)';
+                                                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.4)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.target.style.transform = 'translateY(0)';
+                                                            e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                                                        }}
+                                                    >
+                                                        ✏️ Edit
+                                                    </button>
+                                                    <button
+                                                        onClick={() => deleteTask(task.id)}
+                                                        style={{
+                                                            padding: '8px 16px',
+                                                            background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '8px',
+                                                            fontSize: '13px',
+                                                            fontWeight: '600',
+                                                            cursor: 'pointer',
+                                                            boxShadow: '0 2px 8px rgba(239, 68, 68, 0.3)',
+                                                            transition: 'all 0.2s ease'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.target.style.transform = 'translateY(-1px)';
+                                                            e.target.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.4)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.target.style.transform = 'translateY(0)';
+                                                            e.target.style.boxShadow = '0 2px 8px rgba(239, 68, 68, 0.3)';
+                                                        }}
+                                                    >
+                                                        🗑️ Delete
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -1312,7 +1641,7 @@
                             </table>
                         ) : (
                             <div className="archive-view">
-                                <h3 style={{fontSize: '18px', marginBottom: '20px', color: '#333'}}>
+                                <h3 style={{fontSize: '18px', marginBottom: '20px', color: '#e2e8f0', fontWeight: '600'}}>
                                     Archived Weeks
                                 </h3>
                                 {archivedWeeks.length === 0 ? (
@@ -1339,10 +1668,10 @@
                                                     </span>
                                                 </div>
                                                 <div className="archive-week-total">
-                                                    <span style={{fontSize: '24px', fontWeight: '600', color: '#333'}}>
+                                                    <span style={{fontSize: '24px', fontWeight: '700', color: '#e2e8f0'}}>
                                                         {formatTime(week.totalHours * 3600)}
                                                     </span>
-                                                    <span style={{fontSize: '12px', color: '#666', marginLeft: '5px'}}>
+                                                    <span style={{fontSize: '12px', color: '#94a3b8', marginLeft: '5px', fontWeight: '600'}}>
                                                         / {Object.values(modules).reduce((sum, m) => sum + m.goal, 0)}h
                                                     </span>
                                                 </div>
@@ -1364,21 +1693,22 @@
                                                             }}>
                                                                 <span style={{
                                                                     fontSize: '13px',
-                                                                    fontWeight: '500',
-                                                                    color: '#333'
+                                                                    fontWeight: '600',
+                                                                    color: '#cbd5e1'
                                                                 }}>
                                                                     {getModuleShortName(moduleName)}
                                                                 </span>
                                                                 <span style={{
                                                                     fontSize: '12px',
-                                                                    color: '#666'
+                                                                    color: '#94a3b8',
+                                                                    fontWeight: '500'
                                                                 }}>
                                                                     {formatTime(hours * 3600)} / {moduleGoal}h
                                                                 </span>
                                                             </div>
                                                             <div style={{
                                                                 height: '6px',
-                                                                background: '#f0f0f0',
+                                                                background: 'rgba(51, 65, 85, 0.5)',
                                                                 borderRadius: '3px',
                                                                 overflow: 'hidden'
                                                             }}>
@@ -1397,59 +1727,80 @@
                                             <div style={{
                                                 marginTop: '15px',
                                                 paddingTop: '15px',
-                                                borderTop: '1px solid #f0f0f0',
+                                                borderTop: '1px solid rgba(71, 85, 105, 0.5)',
                                                 display: 'flex',
                                                 justifyContent: 'space-between',
                                                 alignItems: 'center'
                                             }}>
-                                                <span style={{fontSize: '13px', color: '#666'}}>
+                                                <span style={{fontSize: '13px', color: '#94a3b8', fontWeight: '500'}}>
                                                     {week.tasks.length} task{week.tasks.length !== 1 ? 's' : ''} completed
                                                 </span>
                                                 <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
                                                     <button
                                                         style={{
-                                                            padding: '6px 12px',
-                                                            background: '#f8f9fa',
-                                                            border: '1px solid #ddd',
-                                                            borderRadius: '4px',
-                                                            fontSize: '12px',
-                                                            cursor: 'pointer'
+                                                            padding: '8px 16px',
+                                                            background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '8px',
+                                                            fontSize: '13px',
+                                                            fontWeight: '600',
+                                                            cursor: 'pointer',
+                                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                                                            transition: 'all 0.2s ease'
                                                         }}
                                                         onClick={() => {
                                                             alert('Task details for KW ' + week.kw);
                                                         }}
+                                                        onMouseEnter={(e) => {
+                                                            e.target.style.transform = 'translateY(-1px)';
+                                                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.4)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.target.style.transform = 'translateY(0)';
+                                                            e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                                                        }}
                                                     >
-                                                        View Details
+                                                        📊 View Details
                                                     </button>
                                                     <div style={{position: 'relative'}}>
                                                         <button
                                                             style={{
-                                                                padding: '6px 8px',
-                                                                background: '#f8f9fa',
-                                                                border: '1px solid #ddd',
-                                                                borderRadius: '4px',
-                                                                fontSize: '16px',
+                                                                padding: '8px 12px',
+                                                                background: 'rgba(51, 65, 85, 0.5)',
+                                                                border: '2px solid rgba(71, 85, 105, 0.5)',
+                                                                borderRadius: '8px',
+                                                                fontSize: '18px',
                                                                 cursor: 'pointer',
-                                                                lineHeight: '1'
+                                                                lineHeight: '1',
+                                                                transition: 'all 0.2s ease',
+                                                                color: '#cbd5e1'
                                                             }}
                                                             onClick={() => {
                                                                 const weekId = `${week.year}-${week.kw}`;
                                                                 setOpenMenuWeekId(openMenuWeekId === weekId ? null : weekId);
                                                             }}
+                                                            onMouseEnter={(e) => {
+                                                                e.target.style.borderColor = 'rgba(59, 130, 246, 0.8)';
+                                                                e.target.style.background = 'rgba(51, 65, 85, 0.7)';
+                                                            }}
+                                                            onMouseLeave={(e) => {
+                                                                e.target.style.borderColor = 'rgba(71, 85, 105, 0.5)';
+                                                                e.target.style.background = 'rgba(51, 65, 85, 0.5)';
+                                                            }}
                                                         >
                                                             ⋮
                                                         </button>
                                                         {openMenuWeekId === `${week.year}-${week.kw}` && (
-                                                            <div style={{
+                                                            <div className="glass-card" style={{
                                                                 position: 'absolute',
                                                                 right: 0,
                                                                 top: '100%',
-                                                                marginTop: '4px',
-                                                                background: 'white',
-                                                                border: '1px solid #ddd',
-                                                                borderRadius: '6px',
-                                                                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                                                                minWidth: '180px',
+                                                                marginTop: '8px',
+                                                                border: '2px solid rgba(71, 85, 105, 0.5)',
+                                                                borderRadius: '10px',
+                                                                boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+                                                                minWidth: '200px',
                                                                 zIndex: 1000,
                                                                 overflow: 'hidden'
                                                             }}>
@@ -1457,47 +1808,59 @@
                                                                     <button
                                                                         style={{
                                                                             width: '100%',
-                                                                            padding: '10px 16px',
+                                                                            padding: '12px 18px',
                                                                             background: 'transparent',
                                                                             border: 'none',
-                                                                            borderBottom: '1px solid #eee',
+                                                                            borderBottom: '2px solid #f0f0f0',
                                                                             textAlign: 'left',
                                                                             fontSize: '14px',
+                                                                            fontWeight: '600',
                                                                             cursor: 'pointer',
                                                                             display: 'flex',
                                                                             alignItems: 'center',
-                                                                            gap: '8px'
+                                                                            gap: '10px',
+                                                                            transition: 'all 0.2s ease'
                                                                         }}
-                                                                        onMouseEnter={(e) => e.target.style.background = '#f0f0f0'}
-                                                                        onMouseLeave={(e) => e.target.style.background = 'transparent'}
+                                                                        onMouseEnter={(e) => {
+                                                                            e.target.style.background = 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)';
+                                                                            e.target.style.paddingLeft = '22px';
+                                                                        }}
+                                                                        onMouseLeave={(e) => {
+                                                                            e.target.style.background = 'transparent';
+                                                                            e.target.style.paddingLeft = '18px';
+                                                                        }}
                                                                         onClick={() => unarchiveWeek(week)}
                                                                     >
-                                                                        <span>↩</span> Unarchive Week
+                                                                        <span style={{fontSize: '16px'}}>↩</span> Unarchive Week
                                                                     </button>
                                                                 )}
                                                                 <button
                                                                     style={{
                                                                         width: '100%',
-                                                                        padding: '10px 16px',
+                                                                        padding: '12px 18px',
                                                                         background: 'transparent',
                                                                         border: 'none',
                                                                         textAlign: 'left',
                                                                         fontSize: '14px',
+                                                                        fontWeight: '600',
                                                                         cursor: 'pointer',
                                                                         display: 'flex',
                                                                         alignItems: 'center',
-                                                                        gap: '8px',
-                                                                        color: '#dc3545'
+                                                                        gap: '10px',
+                                                                        color: '#ef4444',
+                                                                        transition: 'all 0.2s ease'
                                                                     }}
                                                                     onMouseEnter={(e) => {
-                                                                        e.target.style.background = '#fff5f5';
+                                                                        e.target.style.background = 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)';
+                                                                        e.target.style.paddingLeft = '22px';
                                                                     }}
                                                                     onMouseLeave={(e) => {
                                                                         e.target.style.background = 'transparent';
+                                                                        e.target.style.paddingLeft = '18px';
                                                                     }}
                                                                     onClick={() => deleteArchivedWeek(week)}
                                                                 >
-                                                                    <span>🗑️</span> Delete Week
+                                                                    <span style={{fontSize: '16px'}}>🗑️</span> Delete Week
                                                                 </button>
                                                             </div>
                                                         )}
@@ -1523,43 +1886,44 @@
                         sectionOrder[1],
                         sectionOrder[1] === 'timer' ? (
                             // Timer as full-width section below
-                            <div className="timer-section">
+                            <div className="glass-card rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 fade-in-up">
                                 <div style={{maxWidth: '600px', margin: '0 auto'}}>
                                 {activeTimer ? (
-                                    <div style={{
-                                        background: activeTimer.isPaused ? '#fff3cd' : '#d4edda',
-                                        border: activeTimer.isPaused ? '2px solid #ffeeba' : '2px solid #c3e6cb',
-                                        borderRadius: '12px',
+                                    <div className={`${activeTimer.isPaused ? 'timer-paused' : 'timer-active'}`} style={{
+                                        borderRadius: '16px',
                                         padding: '25px'
                                     }}>
                                         <h3 style={{
-                                            fontSize: '18px',
-                                            fontWeight: '600',
+                                            fontSize: '20px',
+                                            fontWeight: '700',
                                             marginBottom: '20px',
-                                            color: activeTimer.isPaused ? '#856404' : '#155724',
-                                            textAlign: 'center'
+                                            color: activeTimer.isPaused ? '#d97706' : '#059669',
+                                            textAlign: 'center',
+                                            letterSpacing: '0.5px'
                                         }}>
                                             Active Timer
                                         </h3>
                                         <div style={{
-                                            fontSize: '48px',
-                                            fontWeight: '300',
-                                            fontFamily: '"Courier New", monospace',
-                                            color: activeTimer.isPaused ? '#856404' : '#155724',
+                                            fontSize: '56px',
+                                            fontWeight: '700',
+                                            fontFamily: '"SF Mono", "Courier New", monospace',
+                                            color: activeTimer.isPaused ? '#d97706' : '#059669',
                                             textAlign: 'center',
-                                            marginBottom: '8px'
+                                            marginBottom: '8px',
+                                            textShadow: '0 2px 4px rgba(0,0,0,0.1)'
                                         }}>
                                             {formatTime(activeTimer.elapsed)}
                                         </div>
                                         {activeTimer.isPaused && (
                                             <div style={{
                                                 fontSize: '14px',
-                                                fontWeight: '600',
-                                                color: '#856404',
+                                                fontWeight: '700',
+                                                color: '#d97706',
                                                 textAlign: 'center',
-                                                marginBottom: '15px'
+                                                marginBottom: '15px',
+                                                letterSpacing: '1px'
                                             }}>
-                                                PAUSED
+                                                ⏸ PAUSED
                                             </div>
                                         )}
                                         <div style={{
@@ -1607,16 +1971,31 @@
                                             }}>
                                                 <button
                                                     onClick={pauseTimer}
+                                                    className={activeTimer.isPaused ? 'btn-success' : ''}
                                                     style={{
                                                         flex: 1,
-                                                        padding: '12px',
-                                                        background: activeTimer.isPaused ? '#28a745' : '#ffc107',
-                                                        color: activeTimer.isPaused ? 'white' : '#000',
+                                                        padding: '14px',
+                                                        background: activeTimer.isPaused ? undefined : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                                                        color: 'white',
                                                         border: 'none',
-                                                        borderRadius: '6px',
-                                                        fontSize: '14px',
-                                                        fontWeight: '600',
-                                                        cursor: 'pointer'
+                                                        borderRadius: '10px',
+                                                        fontSize: '15px',
+                                                        fontWeight: '700',
+                                                        cursor: 'pointer',
+                                                        boxShadow: activeTimer.isPaused ? undefined : '0 4px 12px rgba(245, 158, 11, 0.4)',
+                                                        transition: 'all 0.3s ease'
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        if (!activeTimer.isPaused) {
+                                                            e.target.style.transform = 'translateY(-2px)';
+                                                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.4)';
+                                                        }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        if (!activeTimer.isPaused) {
+                                                            e.target.style.transform = 'translateY(0)';
+                                                            e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                                                        }
                                                     }}
                                                 >
                                                     {activeTimer.isPaused ? '▶ Resume' : '⏸ Pause'}
@@ -1625,14 +2004,24 @@
                                                     onClick={stopTimer}
                                                     style={{
                                                         flex: 1,
-                                                        padding: '12px',
-                                                        background: '#dc3545',
+                                                        padding: '14px',
+                                                        background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
                                                         color: 'white',
                                                         border: 'none',
-                                                        borderRadius: '6px',
-                                                        fontSize: '14px',
-                                                        fontWeight: '600',
-                                                        cursor: 'pointer'
+                                                        borderRadius: '10px',
+                                                        fontSize: '15px',
+                                                        fontWeight: '700',
+                                                        cursor: 'pointer',
+                                                        boxShadow: '0 4px 12px rgba(239, 68, 68, 0.4)',
+                                                        transition: 'all 0.3s ease'
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        e.target.style.transform = 'translateY(-2px)';
+                                                        e.target.style.boxShadow = '0 6px 20px rgba(239, 68, 68, 0.5)';
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        e.target.style.transform = 'translateY(0)';
+                                                        e.target.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.4)';
                                                     }}
                                                 >
                                                     ⏹ Stop
@@ -1677,14 +2066,14 @@
                                         </h3>
                                         <button
                                             onClick={startTimer}
+                                            className="btn-success"
                                             style={{
-                                                padding: '12px 24px',
-                                                background: '#28a745',
+                                                padding: '14px 28px',
                                                 color: 'white',
                                                 border: 'none',
-                                                borderRadius: '6px',
-                                                fontSize: '16px',
-                                                fontWeight: '600',
+                                                borderRadius: '12px',
+                                                fontSize: '17px',
+                                                fontWeight: '700',
                                                 cursor: 'pointer'
                                             }}
                                         >
@@ -1696,27 +2085,116 @@
                             </div>
                         ) : (
                             // Task-list as full-width section below
-                            <div className="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-shadow duration-200">
-                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
-                            <h2 className="section-title" style={{marginBottom: 0}}>
+                            <div className="glass-card rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 fade-in-up">
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+                            <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent" style={{marginBottom: 0}}>
                                 Task List
                             </h2>
-                            <div style={{fontSize: '12px', color: '#666', display: 'flex', gap: '15px'}}>
+                            <div style={{fontSize: '12px', color: '#94a3b8', display: 'flex', gap: '15px', fontWeight: '600'}}>
                                 <span>Tasks: {tasks.length}</span>
                                 <span>Archived: {archivedWeeks.length}</span>
                             </div>
                         </div>
 
-                        <div className="task-controls">
-                            <button onClick={() => openModal()} className="primary">+ New Task</button>
-                            <button onClick={() => setViewMode('current')} className={viewMode === 'current' ? 'active' : ''}>
+                        <div style={{display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap'}}>
+                            <button
+                                onClick={() => openModal()}
+                                className="btn-success"
+                                style={{
+                                    padding: '10px 18px',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '10px',
+                                    fontSize: '14px',
+                                    fontWeight: '700',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                + New Task
+                            </button>
+                            <button
+                                onClick={() => setViewMode('current')}
+                                style={{
+                                    padding: '10px 18px',
+                                    background: viewMode === 'current' ? 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' : 'rgba(51, 65, 85, 0.5)',
+                                    color: viewMode === 'current' ? 'white' : '#cbd5e1',
+                                    border: viewMode === 'current' ? 'none' : '2px solid rgba(71, 85, 105, 0.5)',
+                                    borderRadius: '10px',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: viewMode === 'current' ? '0 2px 8px rgba(0, 0, 0, 0.3)' : 'none'
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (viewMode !== 'current') {
+                                        e.target.style.borderColor = 'rgba(59, 130, 246, 0.8)';
+                                        e.target.style.color = '#3b82f6';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (viewMode !== 'current') {
+                                        e.target.style.borderColor = 'rgba(71, 85, 105, 0.5)';
+                                        e.target.style.color = '#cbd5e1';
+                                    }
+                                }}
+                            >
                                 Current Week
                             </button>
-                            <button onClick={() => setViewMode('archive')} className={viewMode === 'archive' ? 'active' : ''}>
+                            <button
+                                onClick={() => setViewMode('archive')}
+                                style={{
+                                    padding: '10px 18px',
+                                    background: viewMode === 'archive' ? 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' : 'rgba(51, 65, 85, 0.5)',
+                                    color: viewMode === 'archive' ? 'white' : '#cbd5e1',
+                                    border: viewMode === 'archive' ? 'none' : '2px solid rgba(71, 85, 105, 0.5)',
+                                    borderRadius: '10px',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: viewMode === 'archive' ? '0 2px 8px rgba(0, 0, 0, 0.3)' : 'none'
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (viewMode !== 'archive') {
+                                        e.target.style.borderColor = 'rgba(59, 130, 246, 0.8)';
+                                        e.target.style.color = '#3b82f6';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (viewMode !== 'archive') {
+                                        e.target.style.borderColor = 'rgba(71, 85, 105, 0.5)';
+                                        e.target.style.color = '#cbd5e1';
+                                    }
+                                }}
+                            >
                                 Archive
                             </button>
-                            <button onClick={archiveCurrentWeek} style={{marginLeft: 'auto'}}>
-                                Archive Week
+                            <button
+                                onClick={archiveCurrentWeek}
+                                style={{
+                                    padding: '10px 18px',
+                                    background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '10px',
+                                    fontSize: '14px',
+                                    fontWeight: '700',
+                                    cursor: 'pointer',
+                                    marginLeft: 'auto',
+                                    boxShadow: '0 4px 12px rgba(245, 158, 11, 0.4)',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 6px 20px rgba(245, 158, 11, 0.5)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.4)';
+                                }}
+                            >
+                                📦 Archive Week
                             </button>
                         </div>
 
@@ -1752,8 +2230,58 @@
                                             <td>{formatDateTime(task.start)}</td>
                                             <td>{formatDateTime(task.end)}</td>
                                             <td>
-                                                <button onClick={() => openModal(task)} style={{marginRight: '5px'}}>Edit</button>
-                                                <button onClick={() => deleteTask(task.id)}>Delete</button>
+                                                <div style={{display: 'flex', gap: '8px'}}>
+                                                    <button
+                                                        onClick={() => openModal(task)}
+                                                        style={{
+                                                            padding: '8px 16px',
+                                                            background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '8px',
+                                                            fontSize: '13px',
+                                                            fontWeight: '600',
+                                                            cursor: 'pointer',
+                                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                                                            transition: 'all 0.2s ease'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.target.style.transform = 'translateY(-1px)';
+                                                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.4)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.target.style.transform = 'translateY(0)';
+                                                            e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                                                        }}
+                                                    >
+                                                        ✏️ Edit
+                                                    </button>
+                                                    <button
+                                                        onClick={() => deleteTask(task.id)}
+                                                        style={{
+                                                            padding: '8px 16px',
+                                                            background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '8px',
+                                                            fontSize: '13px',
+                                                            fontWeight: '600',
+                                                            cursor: 'pointer',
+                                                            boxShadow: '0 2px 8px rgba(239, 68, 68, 0.3)',
+                                                            transition: 'all 0.2s ease'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.target.style.transform = 'translateY(-1px)';
+                                                            e.target.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.4)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.target.style.transform = 'translateY(0)';
+                                                            e.target.style.boxShadow = '0 2px 8px rgba(239, 68, 68, 0.3)';
+                                                        }}
+                                                    >
+                                                        🗑️ Delete
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -1761,7 +2289,7 @@
                             </table>
                         ) : (
                             <div className="archive-view">
-                                <h3 style={{fontSize: '18px', marginBottom: '20px', color: '#333'}}>
+                                <h3 style={{fontSize: '18px', marginBottom: '20px', color: '#e2e8f0', fontWeight: '600'}}>
                                     Archived Weeks
                                 </h3>
                                 {archivedWeeks.length === 0 ? (
@@ -1792,10 +2320,10 @@
                                                 marginBottom: '15px'
                                             }}>
                                                 <div>
-                                                    <h4 style={{margin: '0 0 5px 0', fontSize: '16px', fontWeight: '600'}}>
+                                                    <h4 style={{margin: '0 0 5px 0', fontSize: '16px', fontWeight: '600', color: '#e2e8f0'}}>
                                                         KW {week.kw} - {week.year}
                                                     </h4>
-                                                    <div style={{fontSize: '13px', color: '#666'}}>
+                                                    <div style={{fontSize: '13px', color: '#94a3b8', fontWeight: '500'}}>
                                                         {week.tasks.length} tasks • Total: {formatTime(week.totalTime)}
                                                     </div>
                                                 </div>
@@ -1889,24 +2417,24 @@
                         1
                     )}
 
-                    <div className={`${showModal ? 'flex' : 'hidden'} fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50`}>
-                        <div className="bg-white rounded-xl p-8 w-11/12 max-w-lg shadow-2xl">
-                            <h2 className="text-2xl font-semibold mb-5 text-gray-900">{editingTask ? 'Edit Task' : 'New Task'}</h2>
+                    <div className={`${showModal ? 'flex' : 'hidden'} fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm items-center justify-center z-50`}>
+                        <div className="glass-card rounded-2xl p-8 w-11/12 max-w-lg shadow-2xl border-2 border-slate-600 fade-in-up">
+                            <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">{editingTask ? 'Edit Task' : 'New Task'}</h2>
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-5">
-                                    <label className="block mb-2 font-medium text-sm text-gray-800">Task Name</label>
+                                    <label className="block mb-2 font-semibold text-sm text-slate-300">Task Name</label>
                                     <input
                                         type="text"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent transition-all"
+                                        className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-100"
                                         value={formData.name}
                                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                                         required
                                     />
                                 </div>
                                 <div className="mb-5">
-                                    <label className="block mb-2 font-medium text-sm text-gray-800">Project</label>
+                                    <label className="block mb-2 font-semibold text-sm text-slate-300">Project</label>
                                     <select
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent transition-all"
+                                        className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-100"
                                         value={formData.project}
                                         onChange={(e) => setFormData({...formData, project: e.target.value})}
                                     >
@@ -1916,32 +2444,33 @@
                                     </select>
                                 </div>
                                 <div className="mb-5">
-                                    <label className="block mb-2 font-medium text-sm text-gray-800">Start Time</label>
+                                    <label className="block mb-2 font-semibold text-sm text-slate-300">Start Time</label>
                                     <input
                                         type="datetime-local"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent transition-all"
+                                        className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-100"
                                         value={formData.start}
                                         onChange={(e) => setFormData({...formData, start: e.target.value})}
                                         required
                                     />
                                 </div>
                                 <div className="mb-5">
-                                    <label className="block mb-2 font-medium text-sm text-gray-800">End Time</label>
+                                    <label className="block mb-2 font-semibold text-sm text-slate-300">End Time</label>
                                     <input
                                         type="datetime-local"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent transition-all"
+                                        className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-100"
                                         value={formData.end}
                                         onChange={(e) => setFormData({...formData, end: e.target.value})}
                                     />
                                 </div>
-                                <div className="flex gap-3 justify-end mt-6">
-                                    <button type="button" className="px-5 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 font-medium transition-colors" onClick={closeModal}>Cancel</button>
-                                    <button type="submit" className="px-5 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 font-medium transition-colors shadow-md">
+                                <div className="flex gap-3 justify-end mt-8">
+                                    <button type="button" className="px-6 py-3 bg-slate-700 text-slate-200 rounded-xl hover:bg-slate-600 font-semibold transition-all hover:shadow-lg border-2 border-slate-600" onClick={closeModal}>Cancel</button>
+                                    <button type="submit" className="px-6 py-3 btn-primary text-white rounded-xl font-semibold">
                                         {editingTask ? 'Update' : 'Create'}
                                     </button>
                                 </div>
                             </form>
                         </div>
+                    </div>
                     </div>
                 </div>
             );
