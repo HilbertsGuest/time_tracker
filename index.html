@@ -20,192 +20,32 @@
     <script src="./js/chart.min.js"></script>
     <script src="./js/db.js"></script>
 
+    <!-- Tailwind CSS CDN for development -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              success: '#4CAF50',
+            }
+          }
+        }
+      }
+    </script>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background: #f7f7f7;
-            color: #333;
-        }
-
-        .app-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .compact-header {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .install-button {
-            padding: 8px 16px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            display: none;
-        }
-
-        .install-button:hover {
-            background: #45a049;
-        }
-
-        .invested-time-section {
-            background: white;
-            border-radius: 8px;
-            padding: 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #1a1a1a;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .tab {
-            padding: 10px 0;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            color: #666;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .tab.active {
-            color: #333;
-            border-bottom-color: #333;
-            font-weight: 500;
-        }
-
-        .charts-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .chart-wrapper {
-            text-align: center;
-        }
-
-        .chart-container {
-            position: relative;
-            width: 280px;
-            height: 280px;
-            margin: 0 auto;
-        }
-
+        /* Chart center text positioning - custom CSS needed for absolute positioning */
         .chart-center-text {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
+            pointer-events: none;
         }
 
-        .chart-center-text .hours {
-            font-size: 48px;
-            font-weight: 300;
-            color: #1a1a1a;
-        }
-
-        .chart-center-text .label {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .no-data {
-            width: 280px;
-            height: 280px;
-            border: 2px solid #eee;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            margin: 0 auto;
-        }
-
-        .task-list-section {
-            background: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .task-controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .task-controls button {
-            padding: 8px 16px;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .task-controls button:hover {
-            background: #f5f5f5;
-        }
-
-        .task-controls button.primary {
-            background: #333;
-            color: white;
-            border-color: #333;
-        }
-
-        .task-controls button.primary:hover {
-            background: #555;
-        }
-
-        .task-controls button.active {
-            background: #e3f2fd;
-            border-color: #2196f3;
-            color: #2196f3;
-            font-weight: 600;
-        }
-
-        .archive-view {
-            margin-top: 20px;
-        }
-
-        .archive-timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-height: 600px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-
+        /* Custom scrollbar styling */
         .archive-timeline::-webkit-scrollbar {
             width: 8px;
         }
@@ -224,223 +64,7 @@
             background: #555;
         }
 
-        .archive-week-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 20px;
-            transition: all 0.2s;
-        }
-
-        .archive-week-card:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-color: #ccc;
-        }
-
-        .archive-week-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .archive-week-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .kw-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .week-dates {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .archive-week-total {
-            display: flex;
-            align-items: baseline;
-        }
-
-        .archive-modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-
-        .archive-module-item {
-            padding: 12px;
-            background: #fafafa;
-            border-radius: 6px;
-        }
-
-        .task-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .task-table th {
-            text-align: left;
-            padding: 12px 16px;
-            border-bottom: 2px solid #eee;
-            font-size: 13px;
-            font-weight: 600;
-            color: #666;
-        }
-
-        .task-table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid #f5f5f5;
-            font-size: 14px;
-        }
-
-        .task-table tr:hover {
-            background: #fafafa;
-        }
-
-        .project-tag {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 8px;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-
-        .modal-content h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #333;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 25px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .btn-cancel {
-            background: #f5f5f5;
-            color: #333;
-        }
-
-        .btn-cancel:hover {
-            background: #e5e5e5;
-        }
-
-        .btn-primary {
-            background: #333;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #555;
-        }
-
-        .timer-display {
-            display: inline-block;
-            padding: 4px 10px;
-            background: #f0f0f0;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            margin-left: 10px;
-        }
-
-        .timer-display.active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .pwa-status {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #333;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 4px;
-            font-size: 13px;
-            display: none;
-            z-index: 1000;
-        }
-
-        .pwa-status.show {
-            display: block;
-            animation: slideIn 0.3s ease-out;
-        }
-
+        /* Slide in animation */
         @keyframes slideIn {
             from {
                 transform: translateY(100px);
@@ -451,11 +75,20 @@
                 opacity: 1;
             }
         }
+
+        .pwa-status.show {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        /* KW badge gradient */
+        .kw-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
     </style>
 </head>
-<body>
+<body class="m-0 p-0 font-sans bg-gray-100 text-gray-800">
     <div id="root"></div>
-    <div id="pwa-status" class="pwa-status"></div>
+    <div id="pwa-status" class="fixed bottom-5 right-5 bg-gray-800 text-white px-5 py-3 rounded shadow-lg text-sm hidden z-50"></div>
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
@@ -1206,109 +839,51 @@
             };
 
             return (
-                <div className="app-container">
-                    <div className="compact-header">
+                <div className="max-w-7xl mx-auto p-5">
+                    <div className="mb-5 flex justify-between items-center">
                         <div>
-                            <h1 style={{
-                                fontSize: '28px',
-                                margin: '20px 0 5px 0',
-                                color: '#1a1a1a',
-                                fontWeight: '600'
-                            }}>
+                            <h1 className="text-3xl my-5 text-gray-900 font-semibold">
                                 Time Tracker
                             </h1>
-                            <div style={{display: 'flex', gap: '10px', marginTop: '10px'}}>
+                            <div className="flex gap-3 mt-3">
                                 {Object.keys(programs).map(programName => (
                                     <button
                                         key={programName}
                                         onClick={() => setActiveProgram(programName)}
-                                        style={{
-                                            padding: '6px 16px',
-                                            background: activeProgram === programName ? '#333' : 'white',
-                                            color: activeProgram === programName ? 'white' : '#333',
-                                            border: '1px solid #333',
-                                            borderRadius: '4px',
-                                            cursor: 'pointer',
-                                            fontSize: '14px',
-                                            fontWeight: activeProgram === programName ? '600' : '400',
-                                            transition: 'all 0.2s'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            if (activeProgram !== programName) {
-                                                e.target.style.background = '#f5f5f5';
-                                            }
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            if (activeProgram !== programName) {
-                                                e.target.style.background = 'white';
-                                            }
-                                        }}
+                                        className={`py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200 border-2 ${
+                                            activeProgram === programName
+                                                ? 'bg-gray-800 text-white border-gray-800 shadow-md'
+                                                : 'bg-white text-gray-800 border-gray-300 hover:bg-gray-50 hover:shadow'
+                                        }`}
                                     >
                                         {programName}
                                     </button>
                                 ))}
                             </div>
                         </div>
-                        <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+                        <div className="flex gap-3 items-center">
                             <button
                                 id="install-btn"
-                                className="install-button"
+                                className="px-4 py-2 bg-success text-white rounded-lg text-sm font-medium hover:bg-green-600 transition-colors hidden"
                                 onClick={handleInstallClick}
                             >
                                 Install App
                             </button>
-                            <div className="hamburger-menu-container" style={{position: 'relative'}}>
+                            <div className="relative">
                                 <button
-                                    style={{
-                                        padding: '8px 12px',
-                                        background: 'white',
-                                        border: '1px solid #ddd',
-                                        borderRadius: '4px',
-                                        cursor: 'pointer',
-                                        fontSize: '20px',
-                                        lineHeight: '1',
-                                        transition: 'all 0.2s'
-                                    }}
+                                    className="px-3 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer text-xl leading-none transition-all hover:bg-gray-50 hover:shadow"
                                     onClick={() => setHamburgerMenuOpen(!hamburgerMenuOpen)}
-                                    onMouseEnter={(e) => e.target.style.background = '#f5f5f5'}
-                                    onMouseLeave={(e) => e.target.style.background = 'white'}
                                 >
                                     ☰
                                 </button>
                                 {hamburgerMenuOpen && (
-                                    <div style={{
-                                        position: 'absolute',
-                                        right: 0,
-                                        top: '100%',
-                                        marginTop: '8px',
-                                        background: 'white',
-                                        border: '1px solid #ddd',
-                                        borderRadius: '6px',
-                                        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                                        minWidth: '200px',
-                                        zIndex: 1000,
-                                        overflow: 'hidden'
-                                    }}>
+                                    <div className="absolute right-0 top-full mt-2 bg-white border border-gray-300 rounded-lg shadow-lg min-w-[200px] z-50 overflow-hidden">
                                         <button
                                             onClick={() => {
                                                 exportData();
                                                 setHamburgerMenuOpen(false);
                                             }}
-                                            style={{
-                                                width: '100%',
-                                                padding: '12px 16px',
-                                                background: 'transparent',
-                                                border: 'none',
-                                                borderBottom: '1px solid #eee',
-                                                textAlign: 'left',
-                                                fontSize: '14px',
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '10px'
-                                            }}
-                                            onMouseEnter={(e) => e.target.style.background = '#f0f0f0'}
-                                            onMouseLeave={(e) => e.target.style.background = 'transparent'}
+                                            className="w-full py-3 px-4 bg-transparent border-none border-b border-gray-200 text-left text-sm cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-colors"
                                         >
                                             <span>💾</span> Export Data
                                         </button>
@@ -1317,46 +892,17 @@
                                                 document.getElementById('import-file').click();
                                                 setHamburgerMenuOpen(false);
                                             }}
-                                            style={{
-                                                width: '100%',
-                                                padding: '12px 16px',
-                                                background: 'transparent',
-                                                border: 'none',
-                                                borderBottom: '1px solid #eee',
-                                                textAlign: 'left',
-                                                fontSize: '14px',
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '10px'
-                                            }}
-                                            onMouseEnter={(e) => e.target.style.background = '#f0f0f0'}
-                                            onMouseLeave={(e) => e.target.style.background = 'transparent'}
+                                            className="w-full py-3 px-4 bg-transparent border-none border-b border-gray-200 text-left text-sm cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-colors"
                                         >
                                             <span>📥</span> Import Data
                                         </button>
                                         <button
                                             onClick={toggleEditMode}
-                                            style={{
-                                                width: '100%',
-                                                padding: '12px 16px',
-                                                background: editLayoutMode ? '#e3f2fd' : 'transparent',
-                                                border: 'none',
-                                                textAlign: 'left',
-                                                fontSize: '14px',
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '10px',
-                                                color: editLayoutMode ? '#2196f3' : 'inherit',
-                                                fontWeight: editLayoutMode ? '600' : 'normal'
-                                            }}
-                                            onMouseEnter={(e) => {
-                                                if (!editLayoutMode) e.target.style.background = '#f0f0f0';
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.target.style.background = editLayoutMode ? '#e3f2fd' : 'transparent';
-                                            }}
+                                            className={`w-full py-3 px-4 border-none text-left text-sm cursor-pointer flex items-center gap-2 transition-colors ${
+                                                editLayoutMode
+                                                    ? 'bg-blue-50 text-blue-600 font-semibold'
+                                                    : 'bg-transparent hover:bg-gray-50'
+                                            }`}
                                         >
                                             <span>{editLayoutMode ? '✓' : '⚙️'}</span> {editLayoutMode ? 'Exit Edit Mode' : 'Edit Layout'}
                                         </button>
@@ -1376,12 +922,16 @@
                     {/* Dynamic section rendering based on user layout preference */}
                     {renderSectionWithControls(
                         `chart-with-${sectionOrder[0]}`,
-                        <div className="invested-time-section">
-                        <h2 className="section-title">Invested time</h2>
+                        <div className="bg-white rounded-xl p-8 mb-5 shadow-md hover:shadow-lg transition-shadow duration-200">
+                        <h2 className="text-xl font-semibold mb-5 text-gray-900">Invested time</h2>
 
-                        <div className="tabs">
+                        <div className="flex gap-6 mb-8 border-b border-gray-200 overflow-x-auto">
                             <div
-                                className={`tab ${activeTab === 'overview' ? 'active' : ''}`}
+                                className={`pb-3 px-2 cursor-pointer border-b-2 text-sm transition-all duration-200 whitespace-nowrap ${
+                                    activeTab === 'overview'
+                                        ? 'text-gray-900 border-gray-900 font-medium'
+                                        : 'text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300'
+                                }`}
                                 onClick={() => setActiveTab('overview')}
                             >
                                 Overview (All Modules)
@@ -1389,22 +939,26 @@
                             {Object.entries(modules).map(([moduleName, moduleData]) => (
                                 <div
                                     key={moduleName}
-                                    className={`tab ${activeTab === moduleName ? 'active' : ''}`}
-                                    onClick={() => setActiveTab(moduleName)}
+                                    className={`pb-3 px-2 cursor-pointer border-b-2 text-sm transition-all duration-200 whitespace-nowrap ${
+                                        activeTab === moduleName
+                                            ? 'text-gray-900 font-medium'
+                                            : 'text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300'
+                                    }`}
                                     style={{borderBottomColor: activeTab === moduleName ? moduleData.color : 'transparent'}}
+                                    onClick={() => setActiveTab(moduleName)}
                                 >
                                     <span style={{color: moduleData.color}}>●</span> {getModuleShortName(moduleName)}
                                 </div>
                             ))}
                         </div>
 
-                        <div className="charts-container">
-                            <div className="chart-wrapper">
-                                <div className="chart-container">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
+                            <div className="text-center">
+                                <div className="relative w-[280px] h-[280px] mx-auto">
                                     <canvas ref={chartRef}></canvas>
                                     <div className="chart-center-text">
-                                        <div className="hours">{getTotalHours()}</div>
-                                        <div className="label">
+                                        <div className="text-5xl font-light text-gray-900">{getTotalHours()}</div>
+                                        <div className="text-xs text-gray-600 mt-1">
                                             {activeTab === 'overview' ? 'Total hours' : 'Hours invested'}
                                         </div>
                                     </div>
@@ -2142,7 +1696,7 @@
                             </div>
                         ) : (
                             // Task-list as full-width section below
-                            <div className="task-list-section">
+                            <div className="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-shadow duration-200">
                         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
                             <h2 className="section-title" style={{marginBottom: 0}}>
                                 Task List
@@ -2335,22 +1889,24 @@
                         1
                     )}
 
-                    <div className={`modal ${showModal ? 'active' : ''}`}>
-                        <div className="modal-content">
-                            <h2>{editingTask ? 'Edit Task' : 'New Task'}</h2>
+                    <div className={`${showModal ? 'flex' : 'hidden'} fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50`}>
+                        <div className="bg-white rounded-xl p-8 w-11/12 max-w-lg shadow-2xl">
+                            <h2 className="text-2xl font-semibold mb-5 text-gray-900">{editingTask ? 'Edit Task' : 'New Task'}</h2>
                             <form onSubmit={handleSubmit}>
-                                <div className="form-group">
-                                    <label>Task Name</label>
+                                <div className="mb-5">
+                                    <label className="block mb-2 font-medium text-sm text-gray-800">Task Name</label>
                                     <input
                                         type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent transition-all"
                                         value={formData.name}
                                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                                         required
                                     />
                                 </div>
-                                <div className="form-group">
-                                    <label>Project</label>
+                                <div className="mb-5">
+                                    <label className="block mb-2 font-medium text-sm text-gray-800">Project</label>
                                     <select
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent transition-all"
                                         value={formData.project}
                                         onChange={(e) => setFormData({...formData, project: e.target.value})}
                                     >
@@ -2359,26 +1915,28 @@
                                         ))}
                                     </select>
                                 </div>
-                                <div className="form-group">
-                                    <label>Start Time</label>
+                                <div className="mb-5">
+                                    <label className="block mb-2 font-medium text-sm text-gray-800">Start Time</label>
                                     <input
                                         type="datetime-local"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent transition-all"
                                         value={formData.start}
                                         onChange={(e) => setFormData({...formData, start: e.target.value})}
                                         required
                                     />
                                 </div>
-                                <div className="form-group">
-                                    <label>End Time</label>
+                                <div className="mb-5">
+                                    <label className="block mb-2 font-medium text-sm text-gray-800">End Time</label>
                                     <input
                                         type="datetime-local"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent transition-all"
                                         value={formData.end}
                                         onChange={(e) => setFormData({...formData, end: e.target.value})}
                                     />
                                 </div>
-                                <div className="modal-actions">
-                                    <button type="button" className="btn btn-cancel" onClick={closeModal}>Cancel</button>
-                                    <button type="submit" className="btn btn-primary">
+                                <div className="flex gap-3 justify-end mt-6">
+                                    <button type="button" className="px-5 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 font-medium transition-colors" onClick={closeModal}>Cancel</button>
+                                    <button type="submit" className="px-5 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 font-medium transition-colors shadow-md">
                                         {editingTask ? 'Update' : 'Create'}
                                     </button>
                                 </div>
