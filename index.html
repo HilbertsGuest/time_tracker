@@ -461,15 +461,32 @@
         const { useState, useEffect, useRef } = React;
 
         function TimeTracker() {
-            // Module definitions with weekly goals (in hours)
-            const modules = {
-                'Diskrete Strukturen': { goal: 8, color: '#3498db' },
-                'Analysis für Informatik': { goal: 12, color: '#e74c3c' },
-                'Programmierung': { goal: 12, color: '#2ecc71' },
-                'Technische Informatik': { goal: 8, color: '#f39c12' },
-                'Mentoring Informatik': { goal: 2, color: '#9b59b6' }
+            // Program definitions with modules and weekly goals (in hours)
+            const programs = {
+                'Informatik': {
+                    modules: {
+                        'Diskrete Strukturen': { goal: 8, color: '#3498db' },
+                        'Analysis für Informatik': { goal: 12, color: '#e74c3c' },
+                        'Programmierung': { goal: 12, color: '#2ecc71' },
+                        'Technische Informatik': { goal: 8, color: '#f39c12' },
+                        'Mentoring Informatik': { goal: 2, color: '#9b59b6' }
+                    }
+                },
+                'Maschinenbau': {
+                    modules: {
+                        'Buchführung und Internes Rechnungswesen': { goal: 6, color: '#3498db' },
+                        'Entscheidungslehre': { goal: 6, color: '#e74c3c' },
+                        'Maschinengestaltung I': { goal: 4, color: '#2ecc71' },
+                        'Mathematik I': { goal: 10, color: '#f39c12' },
+                        'Mechanik I': { goal: 10, color: '#9b59b6' },
+                        'Physik': { goal: 4, color: '#e67e22' }
+                    }
+                }
             };
 
+            const [activeProgram, setActiveProgram] = useState(() => {
+                return localStorage.getItem('activeProgram') || 'Informatik';
+            });
             const [tasks, setTasks] = useState([]);
             const [activeTab, setActiveTab] = useState('overview');
             const [viewMode, setViewMode] = useState('current');
@@ -499,12 +516,21 @@
             const chartRef = useRef(null);
             const chartInstance = useRef(null);
 
+            // Convenience variable for the active program's modules
+            const modules = programs[activeProgram].modules;
+
             const [formData, setFormData] = useState({
                 name: '',
-                project: 'Diskrete Strukturen',
+                project: Object.keys(programs[activeProgram].modules)[0],
                 start: '',
                 end: ''
             });
+
+            // Save active program to localStorage when it changes
+            useEffect(() => {
+                localStorage.setItem('activeProgram', activeProgram);
+                loadDataFromDB();
+            }, [activeProgram]);
 
             // Load data from IndexedDB on mount
             useEffect(() => {
@@ -516,34 +542,34 @@
                 if (dataLoaded) {
                     const saveData = async () => {
                         try {
-                            console.log('Saving tasks:', tasks.length, 'tasks');
-                            console.log('Saving archived weeks:', archivedWeeks.length, 'weeks');
-                            await timeTrackerDB.saveTasks(tasks);
-                            await timeTrackerDB.saveArchivedWeeks(archivedWeeks);
-                            console.log('Data saved successfully');
+                            console.log(`Saving tasks for ${activeProgram}:`, tasks.length, 'tasks');
+                            console.log(`Saving archived weeks for ${activeProgram}:`, archivedWeeks.length, 'weeks');
+                            await timeTrackerDB.saveTasks(tasks, activeProgram);
+                            await timeTrackerDB.saveArchivedWeeks(archivedWeeks, activeProgram);
+                            console.log(`Data saved successfully for ${activeProgram}`);
                         } catch (error) {
                             console.error('Error saving data:', error);
                         }
                     };
                     saveData();
                 }
-            }, [tasks, archivedWeeks, dataLoaded]);
+            }, [tasks, archivedWeeks, dataLoaded, activeProgram]);
 
-            // Load data from IndexedDB
+            // Load data from IndexedDB for the active program
             const loadDataFromDB = async () => {
                 try {
-                    const loadedTasks = await timeTrackerDB.loadTasks();
-                    const loadedArchives = await timeTrackerDB.loadArchivedWeeks();
+                    const loadedTasks = await timeTrackerDB.loadTasks(activeProgram);
+                    const loadedArchives = await timeTrackerDB.loadArchivedWeeks(activeProgram);
 
-                    console.log('Loaded tasks from DB:', loadedTasks.length);
-                    console.log('Loaded archives from DB:', loadedArchives.length);
+                    console.log(`Loaded tasks from DB for ${activeProgram}:`, loadedTasks.length);
+                    console.log(`Loaded archives from DB for ${activeProgram}:`, loadedArchives.length);
 
                     // Load tasks from database (empty array if none exist)
                     setTasks(loadedTasks);
                     setArchivedWeeks(loadedArchives);
 
                     setDataLoaded(true);
-                    showPWAStatus('Data loaded from storage');
+                    showPWAStatus(`Data loaded for ${activeProgram}`);
                 } catch (error) {
                     console.error('Error loading data:', error);
                     setDataLoaded(true);
@@ -1098,11 +1124,19 @@
 
             const getModuleShortName = (moduleName) => {
                 const shortNames = {
+                    // Informatik modules
                     'Diskrete Strukturen': 'DS',
                     'Analysis für Informatik': 'Analysis',
                     'Programmierung': 'Prog',
                     'Technische Informatik': 'TI',
-                    'Mentoring Informatik': 'Mentoring'
+                    'Mentoring Informatik': 'Mentoring',
+                    // Maschinenbau modules
+                    'Buchführung und Internes Rechnungswesen': 'Buchführung',
+                    'Entscheidungslehre': 'Entscheidung',
+                    'Maschinengestaltung I': 'Masch.gest. I',
+                    'Mathematik I': 'Mathe I',
+                    'Mechanik I': 'Mechanik I',
+                    'Physik': 'Physik'
                 };
                 return shortNames[moduleName] || moduleName;
             };
@@ -1174,14 +1208,47 @@
             return (
                 <div className="app-container">
                     <div className="compact-header">
-                        <h1 style={{
-                            fontSize: '28px',
-                            margin: '20px 0 10px 0',
-                            color: '#1a1a1a',
-                            fontWeight: '600'
-                        }}>
-                            Time Tracker
-                        </h1>
+                        <div>
+                            <h1 style={{
+                                fontSize: '28px',
+                                margin: '20px 0 5px 0',
+                                color: '#1a1a1a',
+                                fontWeight: '600'
+                            }}>
+                                Time Tracker
+                            </h1>
+                            <div style={{display: 'flex', gap: '10px', marginTop: '10px'}}>
+                                {Object.keys(programs).map(programName => (
+                                    <button
+                                        key={programName}
+                                        onClick={() => setActiveProgram(programName)}
+                                        style={{
+                                            padding: '6px 16px',
+                                            background: activeProgram === programName ? '#333' : 'white',
+                                            color: activeProgram === programName ? 'white' : '#333',
+                                            border: '1px solid #333',
+                                            borderRadius: '4px',
+                                            cursor: 'pointer',
+                                            fontSize: '14px',
+                                            fontWeight: activeProgram === programName ? '600' : '400',
+                                            transition: 'all 0.2s'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            if (activeProgram !== programName) {
+                                                e.target.style.background = '#f5f5f5';
+                                            }
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            if (activeProgram !== programName) {
+                                                e.target.style.background = 'white';
+                                            }
+                                        }}
+                                    >
+                                        {programName}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
                         <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
                             <button
                                 id="install-btn"
