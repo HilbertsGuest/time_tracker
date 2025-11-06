@@ -1,0 +1,23 @@
+{
+  "name": "time_tracker",
+  "version": "1.0.0",
+  "description": "A Progressive Web App for tracking study hours across university modules with weekly goals and insights.",
+  "main": "sw.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "npx tailwindcss -i ./css/input.css -o ./css/output.css",
+    "watch:css": "npx tailwindcss -i ./css/input.css -o ./css/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:54258/git/HilbertsGuest/time_tracker"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18"
+  }
+}
