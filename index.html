@@ -135,7 +135,7 @@
         /* KW badge gradient - Dark Mode */
         .kw-badge {
             background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         /* Module progress bars with enhanced visuals */
@@ -148,36 +148,36 @@
         .btn-primary {
             background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
         }
 
         .btn-success {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
         }
 
         /* Timer card enhancements */
         .timer-active {
             background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
             border: 2px solid #10b981;
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.2);
         }
 
         .timer-paused {
             background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             border: 2px solid #f59e0b;
-            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 2px 6px rgba(245, 158, 11, 0.2);
         }
 
         /* Header gradient */
@@ -196,10 +196,10 @@
 
         .task-table thead th {
             background: linear-gradient(135deg, rgba(51, 65, 85, 0.6) 0%, rgba(30, 41, 59, 0.8) 100%);
-            padding: 14px 16px;
+            padding: 8px 10px;
             text-align: left;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 11px;
             color: #cbd5e1;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -216,9 +216,9 @@
         }
 
         .task-table tbody td {
-            padding: 14px 16px;
+            padding: 8px 10px;
             border-bottom: 1px solid rgba(51, 65, 85, 0.4);
-            font-size: 14px;
+            font-size: 12px;
             color: #cbd5e1;
         }
 
@@ -228,14 +228,14 @@
 
         .task-table tbody tr:hover {
             background: linear-gradient(135deg, rgba(51, 65, 85, 0.4) 0%, rgba(30, 41, 59, 0.6) 100%);
-            transform: scale(1.01);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: scale(1.005);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .project-tag {
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
             font-weight: 600;
             display: inline-block;
             white-space: nowrap;
@@ -301,6 +301,10 @@
                 // Clear invalid data and return default (task-list next to chart)
                 localStorage.removeItem('sectionOrder');
                 return ['task-list', 'timer'];
+            });
+            const [devMode, setDevMode] = useState(() => {
+                const saved = localStorage.getItem('devMode');
+                return saved === 'true';
             });
             const chartRef = useRef(null);
             const chartInstance = useRef(null);
@@ -898,6 +902,15 @@
                 }
             };
 
+            // Toggle dev mode
+            const toggleDevMode = () => {
+                const newMode = !devMode;
+                setDevMode(newMode);
+                localStorage.setItem('devMode', newMode);
+                setHamburgerMenuOpen(false);
+                showPWAStatus(newMode ? 'Dev Mode enabled' : 'Dev Mode disabled');
+            };
+
             // Swap two sections in the layout
             const swapSections = (index1, index2) => {
                 const newOrder = [...sectionOrder];
@@ -1000,7 +1013,7 @@
                     <div className="glass-card rounded-2xl p-6 mb-8 shadow-2xl fade-in-up">
                         <div className="flex justify-between items-center flex-wrap gap-4">
                             <div>
-                                <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+                                <h1 className={`text-4xl font-bold mb-4 ${devMode ? 'text-slate-100' : 'bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent'}`}>
                                     Time Tracker
                                 </h1>
                                 <div className="flex gap-3 flex-wrap">
@@ -1010,7 +1023,7 @@
                                             onClick={() => setActiveProgram(programName)}
                                             className={`py-2.5 px-5 rounded-xl text-sm font-semibold transition-all duration-300 ${
                                                 activeProgram === programName
-                                                    ? 'btn-primary text-white'
+                                                    ? (devMode ? 'bg-slate-700 text-slate-100 border-2 border-slate-400' : 'btn-primary text-white')
                                                     : 'bg-slate-700 text-slate-200 border-2 border-slate-600 hover:border-blue-400 hover:shadow-lg hover:bg-slate-600'
                                             }`}
                                         >
@@ -1056,13 +1069,23 @@
                                             </button>
                                             <button
                                                 onClick={toggleEditMode}
-                                                className={`w-full py-3 px-4 border-none text-left text-sm cursor-pointer flex items-center gap-2 transition-all font-medium ${
+                                                className={`w-full py-3 px-4 border-none border-b border-slate-600 text-left text-sm cursor-pointer flex items-center gap-2 transition-all font-medium ${
                                                     editLayoutMode
                                                         ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold'
                                                         : 'bg-transparent hover:bg-gradient-to-r hover:from-slate-700 hover:to-slate-600 text-slate-200'
                                                 }`}
                                             >
                                                 <span>{editLayoutMode ? '✓' : '⚙️'}</span> {editLayoutMode ? 'Exit Edit Mode' : 'Edit Layout'}
+                                            </button>
+                                            <button
+                                                onClick={toggleDevMode}
+                                                className={`w-full py-3 px-4 border-none text-left text-sm cursor-pointer flex items-center gap-2 transition-all font-medium ${
+                                                    devMode
+                                                        ? 'bg-slate-800 text-slate-100 font-bold border-l-4 border-slate-400'
+                                                        : 'bg-transparent hover:bg-gradient-to-r hover:from-slate-700 hover:to-slate-600 text-slate-200'
+                                                }`}
+                                            >
+                                                <span>{devMode ? '🔧' : '🎨'}</span> {devMode ? 'Dev Mode (ON)' : 'Dev Mode (OFF)'}
                                             </button>
                                         </div>
                                     )}
@@ -1082,14 +1105,16 @@
                     {renderSectionWithControls(
                         `chart-with-${sectionOrder[0]}`,
                         <div className="glass-card rounded-2xl p-8 mb-8 shadow-2xl hover:shadow-3xl transition-all duration-300 fade-in-up">
-                        <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Invested Time</h2>
+                        <h2 className={`text-2xl font-bold mb-6 ${devMode ? 'text-slate-100' : 'bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'}`}>
+                            Invested Time - KW {getWeekNumber(new Date())}
+                        </h2>
 
                         <div className="flex gap-4 mb-8 border-b-2 border-slate-600 overflow-x-auto pb-1">
                             <div
                                 className={`pb-3 px-4 cursor-pointer border-b-4 text-sm font-semibold transition-all duration-300 whitespace-nowrap rounded-t-lg ${
                                     activeTab === 'overview'
-                                        ? 'text-blue-400 border-blue-400 bg-gradient-to-t from-blue-900/30 to-transparent'
-                                        : 'text-slate-400 border-transparent hover:text-blue-400 hover:border-blue-400 hover:bg-gradient-to-t hover:from-blue-900/20 hover:to-transparent'
+                                        ? (devMode ? 'text-slate-100 border-slate-400 bg-slate-800/50' : 'text-blue-400 border-blue-400 bg-gradient-to-t from-blue-900/30 to-transparent')
+                                        : (devMode ? 'text-slate-400 border-transparent hover:text-slate-100 hover:border-slate-500 hover:bg-slate-800/30' : 'text-slate-400 border-transparent hover:text-blue-400 hover:border-blue-400 hover:bg-gradient-to-t hover:from-blue-900/20 hover:to-transparent')
                                 }`}
                                 onClick={() => setActiveTab('overview')}
                             >
@@ -1100,17 +1125,17 @@
                                     key={moduleName}
                                     className={`pb-3 px-4 cursor-pointer border-b-4 text-sm font-semibold transition-all duration-300 whitespace-nowrap rounded-t-lg ${
                                         activeTab === moduleName
-                                            ? 'font-bold bg-gradient-to-t to-transparent'
-                                            : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-gradient-to-t hover:to-transparent'
+                                            ? (devMode ? 'font-bold bg-slate-800/50' : 'font-bold bg-gradient-to-t to-transparent')
+                                            : (devMode ? 'text-slate-400 border-transparent hover:text-slate-100 hover:bg-slate-800/30' : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-gradient-to-t hover:to-transparent')
                                     }`}
                                     style={{
-                                        borderBottomColor: activeTab === moduleName ? moduleData.color : 'transparent',
-                                        color: activeTab === moduleName ? moduleData.color : undefined,
-                                        backgroundImage: activeTab === moduleName ? `linear-gradient(to top, ${moduleData.color}25, transparent)` : undefined
+                                        borderBottomColor: activeTab === moduleName ? (devMode ? '#94a3b8' : moduleData.color) : 'transparent',
+                                        color: activeTab === moduleName ? (devMode ? '#e2e8f0' : moduleData.color) : undefined,
+                                        backgroundImage: activeTab === moduleName && !devMode ? `linear-gradient(to top, ${moduleData.color}25, transparent)` : undefined
                                     }}
                                     onClick={() => setActiveTab(moduleName)}
                                 >
-                                    <span style={{color: moduleData.color, fontSize: '16px'}}>●</span> {getModuleShortName(moduleName)}
+                                    <span style={{color: devMode ? '#94a3b8' : moduleData.color, fontSize: '16px'}}>●</span> {getModuleShortName(moduleName)}
                                 </div>
                             ))}
                         </div>
@@ -1332,19 +1357,19 @@
                                                         fontSize: '15px',
                                                         fontWeight: '700',
                                                         cursor: 'pointer',
-                                                        boxShadow: activeTimer.isPaused ? undefined : '0 4px 12px rgba(245, 158, 11, 0.4)',
+                                                        boxShadow: activeTimer.isPaused ? undefined : '0 2px 4px rgba(245, 158, 11, 0.25)',
                                                         transition: 'all 0.3s ease'
                                                     }}
                                                     onMouseEnter={(e) => {
                                                         if (!activeTimer.isPaused) {
                                                             e.target.style.transform = 'translateY(-2px)';
-                                                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.4)';
+                                                            e.target.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.25)';
                                                         }
                                                     }}
                                                     onMouseLeave={(e) => {
                                                         if (!activeTimer.isPaused) {
                                                             e.target.style.transform = 'translateY(0)';
-                                                            e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                                                            e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.2)';
                                                         }
                                                     }}
                                                 >
@@ -1362,7 +1387,7 @@
                                                         fontSize: '15px',
                                                         fontWeight: '700',
                                                         cursor: 'pointer',
-                                                        boxShadow: '0 4px 12px rgba(239, 68, 68, 0.4)',
+                                                        boxShadow: '0 2px 4px rgba(239, 68, 68, 0.25)',
                                                         transition: 'all 0.3s ease'
                                                     }}
                                                     onMouseEnter={(e) => {
@@ -1438,26 +1463,27 @@
                                 // Render task-list as companion widget
                                 <div className="chart-wrapper" style={{maxWidth: '400px'}}>
                                 <div className="task-list-compact">
-                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
-                            <h2 className="section-title" style={{marginBottom: 0}}>
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px'}}>
+                            <h2 className="section-title" style={{marginBottom: 0, fontSize: '16px'}}>
                                 Task List
                             </h2>
-                            <div style={{fontSize: '12px', color: '#666', display: 'flex', gap: '15px'}}>
+                            <div style={{fontSize: '10px', color: '#666', display: 'flex', gap: '10px'}}>
                                 <span>Tasks: {tasks.length}</span>
                                 <span>Archived: {archivedWeeks.length}</span>
                             </div>
                         </div>
 
-                        <div style={{display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap'}}>
+                        <div style={{display: 'flex', gap: '6px', marginBottom: '12px', flexWrap: 'wrap'}}>
                             <button
                                 onClick={() => openModal()}
-                                className="btn-success"
+                                className={devMode ? '' : 'btn-success'}
                                 style={{
-                                    padding: '10px 18px',
+                                    padding: '6px 12px',
                                     color: 'white',
-                                    border: 'none',
-                                    borderRadius: '10px',
-                                    fontSize: '14px',
+                                    background: devMode ? '#475569' : undefined,
+                                    border: devMode ? '1px solid #64748b' : 'none',
+                                    borderRadius: '8px',
+                                    fontSize: '12px',
                                     fontWeight: '700',
                                     cursor: 'pointer'
                                 }}
@@ -1467,16 +1493,16 @@
                             <button
                                 onClick={() => setViewMode('current')}
                                 style={{
-                                    padding: '10px 18px',
-                                    background: viewMode === 'current' ? 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' : 'rgba(51, 65, 85, 0.5)',
+                                    padding: '6px 12px',
+                                    background: viewMode === 'current' ? (devMode ? '#475569' : 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)') : 'rgba(51, 65, 85, 0.5)',
                                     color: viewMode === 'current' ? 'white' : '#cbd5e1',
-                                    border: viewMode === 'current' ? 'none' : '2px solid rgba(71, 85, 105, 0.5)',
-                                    borderRadius: '10px',
-                                    fontSize: '14px',
+                                    border: viewMode === 'current' ? (devMode ? '1px solid #64748b' : 'none') : '2px solid rgba(71, 85, 105, 0.5)',
+                                    borderRadius: '8px',
+                                    fontSize: '12px',
                                     fontWeight: '600',
                                     cursor: 'pointer',
                                     transition: 'all 0.3s ease',
-                                    boxShadow: viewMode === 'current' ? '0 2px 8px rgba(0, 0, 0, 0.3)' : 'none'
+                                    boxShadow: viewMode === 'current' && !devMode ? '0 1px 3px rgba(0, 0, 0, 0.2)' : 'none'
                                 }}
                                 onMouseEnter={(e) => {
                                     if (viewMode !== 'current') {
@@ -1496,16 +1522,16 @@
                             <button
                                 onClick={() => setViewMode('archive')}
                                 style={{
-                                    padding: '10px 18px',
-                                    background: viewMode === 'archive' ? 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' : 'rgba(51, 65, 85, 0.5)',
+                                    padding: '6px 12px',
+                                    background: viewMode === 'archive' ? (devMode ? '#475569' : 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)') : 'rgba(51, 65, 85, 0.5)',
                                     color: viewMode === 'archive' ? 'white' : '#cbd5e1',
-                                    border: viewMode === 'archive' ? 'none' : '2px solid rgba(71, 85, 105, 0.5)',
-                                    borderRadius: '10px',
-                                    fontSize: '14px',
+                                    border: viewMode === 'archive' ? (devMode ? '1px solid #64748b' : 'none') : '2px solid rgba(71, 85, 105, 0.5)',
+                                    borderRadius: '8px',
+                                    fontSize: '12px',
                                     fontWeight: '600',
                                     cursor: 'pointer',
                                     transition: 'all 0.3s ease',
-                                    boxShadow: viewMode === 'archive' ? '0 2px 8px rgba(0, 0, 0, 0.3)' : 'none'
+                                    boxShadow: viewMode === 'archive' && !devMode ? '0 1px 3px rgba(0, 0, 0, 0.2)' : 'none'
                                 }}
                                 onMouseEnter={(e) => {
                                     if (viewMode !== 'archive') {
@@ -1525,16 +1551,16 @@
                             <button
                                 onClick={archiveCurrentWeek}
                                 style={{
-                                    padding: '10px 18px',
+                                    padding: '6px 12px',
                                     background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
                                     color: 'white',
                                     border: 'none',
-                                    borderRadius: '10px',
-                                    fontSize: '14px',
+                                    borderRadius: '8px',
+                                    fontSize: '12px',
                                     fontWeight: '700',
                                     cursor: 'pointer',
                                     marginLeft: 'auto',
-                                    boxShadow: '0 4px 12px rgba(245, 158, 11, 0.4)',
+                                    boxShadow: '0 2px 4px rgba(245, 158, 11, 0.25)',
                                     transition: 'all 0.3s ease'
                                 }}
                                 onMouseEnter={(e) => {
@@ -1582,28 +1608,32 @@
                                             <td>{formatDateTime(task.start)}</td>
                                             <td>{formatDateTime(task.end)}</td>
                                             <td>
-                                                <div style={{display: 'flex', gap: '8px'}}>
+                                                <div style={{display: 'flex', gap: '4px'}}>
                                                     <button
                                                         onClick={() => openModal(task)}
                                                         style={{
-                                                            padding: '8px 16px',
-                                                            background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+                                                            padding: '4px 10px',
+                                                            background: devMode ? '#475569' : 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
                                                             color: 'white',
-                                                            border: 'none',
-                                                            borderRadius: '8px',
-                                                            fontSize: '13px',
+                                                            border: devMode ? '1px solid #64748b' : 'none',
+                                                            borderRadius: '6px',
+                                                            fontSize: '11px',
                                                             fontWeight: '600',
                                                             cursor: 'pointer',
-                                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                                                            boxShadow: devMode ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.2)',
                                                             transition: 'all 0.2s ease'
                                                         }}
                                                         onMouseEnter={(e) => {
-                                                            e.target.style.transform = 'translateY(-1px)';
-                                                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.4)';
+                                                            if (!devMode) {
+                                                                e.target.style.transform = 'translateY(-1px)';
+                                                                e.target.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.25)';
+                                                            }
                                                         }}
                                                         onMouseLeave={(e) => {
-                                                            e.target.style.transform = 'translateY(0)';
-                                                            e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                                                            if (!devMode) {
+                                                                e.target.style.transform = 'translateY(0)';
+                                                                e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.2)';
+                                                            }
                                                         }}
                                                     >
                                                         ✏️ Edit
@@ -1611,24 +1641,28 @@
                                                     <button
                                                         onClick={() => deleteTask(task.id)}
                                                         style={{
-                                                            padding: '8px 16px',
-                                                            background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                                                            padding: '4px 10px',
+                                                            background: devMode ? '#7f1d1d' : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
                                                             color: 'white',
-                                                            border: 'none',
-                                                            borderRadius: '8px',
-                                                            fontSize: '13px',
+                                                            border: devMode ? '1px solid #991b1b' : 'none',
+                                                            borderRadius: '6px',
+                                                            fontSize: '11px',
                                                             fontWeight: '600',
                                                             cursor: 'pointer',
-                                                            boxShadow: '0 2px 8px rgba(239, 68, 68, 0.3)',
+                                                            boxShadow: devMode ? 'none' : '0 1px 3px rgba(239, 68, 68, 0.2)',
                                                             transition: 'all 0.2s ease'
                                                         }}
                                                         onMouseEnter={(e) => {
-                                                            e.target.style.transform = 'translateY(-1px)';
-                                                            e.target.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.4)';
+                                                            if (!devMode) {
+                                                                e.target.style.transform = 'translateY(-1px)';
+                                                                e.target.style.boxShadow = '0 2px 4px rgba(239, 68, 68, 0.25)';
+                                                            }
                                                         }}
                                                         onMouseLeave={(e) => {
-                                                            e.target.style.transform = 'translateY(0)';
-                                                            e.target.style.boxShadow = '0 2px 8px rgba(239, 68, 68, 0.3)';
+                                                            if (!devMode) {
+                                                                e.target.style.transform = 'translateY(0)';
+                                                                e.target.style.boxShadow = '0 1px 3px rgba(239, 68, 68, 0.2)';
+                                                            }
                                                         }}
                                                     >
                                                         🗑️ Delete
@@ -1746,7 +1780,7 @@
                                                             fontSize: '13px',
                                                             fontWeight: '600',
                                                             cursor: 'pointer',
-                                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                                                            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
                                                             transition: 'all 0.2s ease'
                                                         }}
                                                         onClick={() => {
@@ -1754,11 +1788,11 @@
                                                         }}
                                                         onMouseEnter={(e) => {
                                                             e.target.style.transform = 'translateY(-1px)';
-                                                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.4)';
+                                                            e.target.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.25)';
                                                         }}
                                                         onMouseLeave={(e) => {
                                                             e.target.style.transform = 'translateY(0)';
-                                                            e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                                                            e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.2)';
                                                         }}
                                                     >
                                                         📊 View Details
@@ -1799,7 +1833,7 @@
                                                                 marginTop: '8px',
                                                                 border: '2px solid rgba(71, 85, 105, 0.5)',
                                                                 borderRadius: '10px',
-                                                                boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+                                                                boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
                                                                 minWidth: '200px',
                                                                 zIndex: 1000,
                                                                 overflow: 'hidden'
@@ -1982,19 +2016,19 @@
                                                         fontSize: '15px',
                                                         fontWeight: '700',
                                                         cursor: 'pointer',
-                                                        boxShadow: activeTimer.isPaused ? undefined : '0 4px 12px rgba(245, 158, 11, 0.4)',
+                                                        boxShadow: activeTimer.isPaused ? undefined : '0 2px 4px rgba(245, 158, 11, 0.25)',
                                                         transition: 'all 0.3s ease'
                                                     }}
                                                     onMouseEnter={(e) => {
                                                         if (!activeTimer.isPaused) {
                                                             e.target.style.transform = 'translateY(-2px)';
-                                                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.4)';
+                                                            e.target.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.25)';
                                                         }
                                                     }}
                                                     onMouseLeave={(e) => {
                                                         if (!activeTimer.isPaused) {
                                                             e.target.style.transform = 'translateY(0)';
-                                                            e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                                                            e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.2)';
                                                         }
                                                     }}
                                                 >
@@ -2012,7 +2046,7 @@
                                                         fontSize: '15px',
                                                         fontWeight: '700',
                                                         cursor: 'pointer',
-                                                        boxShadow: '0 4px 12px rgba(239, 68, 68, 0.4)',
+                                                        boxShadow: '0 2px 4px rgba(239, 68, 68, 0.25)',
                                                         transition: 'all 0.3s ease'
                                                     }}
                                                     onMouseEnter={(e) => {
@@ -2086,26 +2120,27 @@
                         ) : (
                             // Task-list as full-width section below
                             <div className="glass-card rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 fade-in-up">
-                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
-                            <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent" style={{marginBottom: 0}}>
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px'}}>
+                            <h2 className={`text-2xl font-bold ${devMode ? 'text-slate-100' : 'bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'}`} style={{marginBottom: 0}}>
                                 Task List
                             </h2>
-                            <div style={{fontSize: '12px', color: '#94a3b8', display: 'flex', gap: '15px', fontWeight: '600'}}>
+                            <div style={{fontSize: '10px', color: '#94a3b8', display: 'flex', gap: '10px', fontWeight: '600'}}>
                                 <span>Tasks: {tasks.length}</span>
                                 <span>Archived: {archivedWeeks.length}</span>
                             </div>
                         </div>
 
-                        <div style={{display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap'}}>
+                        <div style={{display: 'flex', gap: '6px', marginBottom: '12px', flexWrap: 'wrap'}}>
                             <button
                                 onClick={() => openModal()}
-                                className="btn-success"
+                                className={devMode ? '' : 'btn-success'}
                                 style={{
-                                    padding: '10px 18px',
+                                    padding: '6px 12px',
                                     color: 'white',
-                                    border: 'none',
-                                    borderRadius: '10px',
-                                    fontSize: '14px',
+                                    background: devMode ? '#475569' : undefined,
+                                    border: devMode ? '1px solid #64748b' : 'none',
+                                    borderRadius: '8px',
+                                    fontSize: '12px',
                                     fontWeight: '700',
                                     cursor: 'pointer'
                                 }}
@@ -2115,16 +2150,16 @@
                             <button
                                 onClick={() => setViewMode('current')}
                                 style={{
-                                    padding: '10px 18px',
-                                    background: viewMode === 'current' ? 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' : 'rgba(51, 65, 85, 0.5)',
+                                    padding: '6px 12px',
+                                    background: viewMode === 'current' ? (devMode ? '#475569' : 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)') : 'rgba(51, 65, 85, 0.5)',
                                     color: viewMode === 'current' ? 'white' : '#cbd5e1',
-                                    border: viewMode === 'current' ? 'none' : '2px solid rgba(71, 85, 105, 0.5)',
-                                    borderRadius: '10px',
-                                    fontSize: '14px',
+                                    border: viewMode === 'current' ? (devMode ? '1px solid #64748b' : 'none') : '2px solid rgba(71, 85, 105, 0.5)',
+                                    borderRadius: '8px',
+                                    fontSize: '12px',
                                     fontWeight: '600',
                                     cursor: 'pointer',
                                     transition: 'all 0.3s ease',
-                                    boxShadow: viewMode === 'current' ? '0 2px 8px rgba(0, 0, 0, 0.3)' : 'none'
+                                    boxShadow: viewMode === 'current' && !devMode ? '0 1px 3px rgba(0, 0, 0, 0.2)' : 'none'
                                 }}
                                 onMouseEnter={(e) => {
                                     if (viewMode !== 'current') {
@@ -2144,16 +2179,16 @@
                             <button
                                 onClick={() => setViewMode('archive')}
                                 style={{
-                                    padding: '10px 18px',
-                                    background: viewMode === 'archive' ? 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' : 'rgba(51, 65, 85, 0.5)',
+                                    padding: '6px 12px',
+                                    background: viewMode === 'archive' ? (devMode ? '#475569' : 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)') : 'rgba(51, 65, 85, 0.5)',
                                     color: viewMode === 'archive' ? 'white' : '#cbd5e1',
-                                    border: viewMode === 'archive' ? 'none' : '2px solid rgba(71, 85, 105, 0.5)',
-                                    borderRadius: '10px',
-                                    fontSize: '14px',
+                                    border: viewMode === 'archive' ? (devMode ? '1px solid #64748b' : 'none') : '2px solid rgba(71, 85, 105, 0.5)',
+                                    borderRadius: '8px',
+                                    fontSize: '12px',
                                     fontWeight: '600',
                                     cursor: 'pointer',
                                     transition: 'all 0.3s ease',
-                                    boxShadow: viewMode === 'archive' ? '0 2px 8px rgba(0, 0, 0, 0.3)' : 'none'
+                                    boxShadow: viewMode === 'archive' && !devMode ? '0 1px 3px rgba(0, 0, 0, 0.2)' : 'none'
                                 }}
                                 onMouseEnter={(e) => {
                                     if (viewMode !== 'archive') {
@@ -2173,16 +2208,16 @@
                             <button
                                 onClick={archiveCurrentWeek}
                                 style={{
-                                    padding: '10px 18px',
+                                    padding: '6px 12px',
                                     background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
                                     color: 'white',
                                     border: 'none',
-                                    borderRadius: '10px',
-                                    fontSize: '14px',
+                                    borderRadius: '8px',
+                                    fontSize: '12px',
                                     fontWeight: '700',
                                     cursor: 'pointer',
                                     marginLeft: 'auto',
-                                    boxShadow: '0 4px 12px rgba(245, 158, 11, 0.4)',
+                                    boxShadow: '0 2px 4px rgba(245, 158, 11, 0.25)',
                                     transition: 'all 0.3s ease'
                                 }}
                                 onMouseEnter={(e) => {
@@ -2230,28 +2265,32 @@
                                             <td>{formatDateTime(task.start)}</td>
                                             <td>{formatDateTime(task.end)}</td>
                                             <td>
-                                                <div style={{display: 'flex', gap: '8px'}}>
+                                                <div style={{display: 'flex', gap: '4px'}}>
                                                     <button
                                                         onClick={() => openModal(task)}
                                                         style={{
-                                                            padding: '8px 16px',
-                                                            background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+                                                            padding: '4px 10px',
+                                                            background: devMode ? '#475569' : 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
                                                             color: 'white',
-                                                            border: 'none',
-                                                            borderRadius: '8px',
-                                                            fontSize: '13px',
+                                                            border: devMode ? '1px solid #64748b' : 'none',
+                                                            borderRadius: '6px',
+                                                            fontSize: '11px',
                                                             fontWeight: '600',
                                                             cursor: 'pointer',
-                                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                                                            boxShadow: devMode ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.2)',
                                                             transition: 'all 0.2s ease'
                                                         }}
                                                         onMouseEnter={(e) => {
-                                                            e.target.style.transform = 'translateY(-1px)';
-                                                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.4)';
+                                                            if (!devMode) {
+                                                                e.target.style.transform = 'translateY(-1px)';
+                                                                e.target.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.25)';
+                                                            }
                                                         }}
                                                         onMouseLeave={(e) => {
-                                                            e.target.style.transform = 'translateY(0)';
-                                                            e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                                                            if (!devMode) {
+                                                                e.target.style.transform = 'translateY(0)';
+                                                                e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.2)';
+                                                            }
                                                         }}
                                                     >
                                                         ✏️ Edit
@@ -2259,24 +2298,28 @@
                                                     <button
                                                         onClick={() => deleteTask(task.id)}
                                                         style={{
-                                                            padding: '8px 16px',
-                                                            background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                                                            padding: '4px 10px',
+                                                            background: devMode ? '#7f1d1d' : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
                                                             color: 'white',
-                                                            border: 'none',
-                                                            borderRadius: '8px',
-                                                            fontSize: '13px',
+                                                            border: devMode ? '1px solid #991b1b' : 'none',
+                                                            borderRadius: '6px',
+                                                            fontSize: '11px',
                                                             fontWeight: '600',
                                                             cursor: 'pointer',
-                                                            boxShadow: '0 2px 8px rgba(239, 68, 68, 0.3)',
+                                                            boxShadow: devMode ? 'none' : '0 1px 3px rgba(239, 68, 68, 0.2)',
                                                             transition: 'all 0.2s ease'
                                                         }}
                                                         onMouseEnter={(e) => {
-                                                            e.target.style.transform = 'translateY(-1px)';
-                                                            e.target.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.4)';
+                                                            if (!devMode) {
+                                                                e.target.style.transform = 'translateY(-1px)';
+                                                                e.target.style.boxShadow = '0 2px 4px rgba(239, 68, 68, 0.25)';
+                                                            }
                                                         }}
                                                         onMouseLeave={(e) => {
-                                                            e.target.style.transform = 'translateY(0)';
-                                                            e.target.style.boxShadow = '0 2px 8px rgba(239, 68, 68, 0.3)';
+                                                            if (!devMode) {
+                                                                e.target.style.transform = 'translateY(0)';
+                                                                e.target.style.boxShadow = '0 1px 3px rgba(239, 68, 68, 0.2)';
+                                                            }
                                                         }}
                                                     >
                                                         🗑️ Delete
