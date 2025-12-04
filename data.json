@@ -1,0 +1,21 @@
+{
+    "Informatik": {
+        "modules": {
+            "Diskrete Strukturen": { "goal": 8, "color": "#3498db" },
+            "Analysis für Informatik": { "goal": 12, "color": "#e74c3c" },
+            "Programmierung": { "goal": 12, "color": "#2ecc71" },
+            "Technische Informatik": { "goal": 8, "color": "#f39c12" },
+            "Mentoring Informatik": { "goal": 2, "color": "#9b59b6" }
+        }
+    },
+    "Maschinenbau": {
+        "modules": {
+            "Buchführung und Internes Rechnungswesen": { "goal": 6, "color": "#3498db" },
+            "Entscheidungslehre": { "goal": 6, "color": "#e74c3c" },
+            "Maschinengestaltung I": { "goal": 4, "color": "#2ecc71" },
+            "Mathematik I": { "goal": 10, "color": "#f39c12" },
+            "Mechanik I": { "goal": 10, "color": "#9b59b6" },
+            "Physik": { "goal": 4, "color": "#e67e22" }
+        }
+    }
+}
